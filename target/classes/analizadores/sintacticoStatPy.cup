@@ -1,0 +1,16 @@
+package analizadores;
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import errores.ErrorSintactico;
+
+parser code {:
+    public LinkedList<ErrorSintactico> errores = new LinkedList<>();
+    public void error_sintactico(Symbol s) {
+        if (s.value != null)
+            errores.add(new ErrorSintactico(s.value.toString(), s.left, s.right));
+    }
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+                throw new Exception("Error irrecuperable en (linea, columna): " + s.left + ", " + s.right);
+    }
+:}
