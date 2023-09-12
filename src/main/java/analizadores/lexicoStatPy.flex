@@ -1,8 +1,7 @@
 package analizadores;
 
-import java_cup.runtime.Symbol;
+import errores.ErrorLexico;import java_cup.runtime.Symbol;
 import java.util.LinkedList;
-import olc1.project1.errors.LexicalError;
 
 %%
 %class Lexico
@@ -14,7 +13,7 @@ import olc1.project1.errors.LexicalError;
 %ignorecase
 
 %{
-    public LinkedList<LexicalError> lexicalErrors;
+    public LinkedList<ErrorLexico> lexicalErrors;
 %}
 
 %init{
@@ -29,6 +28,7 @@ COMMENTMULTILINE = "/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
 
 STR = [\"][^\"]*[\"]
 NUM = [0-9]+("."[  |0-9]+)?
+BOOLEAN = true|false
 CHAR = ([\']([^\t\'\"\n]|(\\\")|(\\n)|(\\\')|(\\t))?[\'])|(['][\$][{](6[5-9]|[7-8][0-9]|90|9[7-9]|10[0-9]|11[0-9]|12[0-2])[}]['])
 
 ID = "_"[0-9A-Za-z_]+"_"
@@ -42,21 +42,19 @@ TYPEDEF = int|double|char|bool|string
 
 ">"                 {return new Symbol(sym.MAYOR, yyline,(int) yychar, yytext());}
 "<"                 {return new Symbol(sym.MENOR, yyline,(int) yychar, yytext());}
-">="                {return new Symbol(sym.MAJOR_IGUAL, yyline,(int) yychar, yytext());}
-">="         {return new Symbol(sym.MENOR_IGUAL, yyline,(int) yychar, yytext());}
+">="                {return new Symbol(sym.MAYOR_IGUAL, yyline,(int) yychar, yytext());}
+"<="         {return new Symbol(sym.MENOR_IGUAL, yyline,(int) yychar, yytext());}
 "=="              {return new Symbol(sym.IGUAL, yyline,(int) yychar, yytext());}
 "!="          {return new Symbol(sym.NO_IGUAL, yyline,(int) yychar, yytext());}
 "!"                   {return new Symbol(sym.NOT, yyline,(int) yychar, yytext());}
 "||"                    {return new Symbol(sym.OR, yyline,(int) yychar, yytext());}
 "&&"                   {return new Symbol(sym.AND, yyline,(int) yychar, yytext());}
 
-","                     {return new Symbol(sym.COMA, yyline,(int) yychar, yytext());}
+
 ";"                     {return new Symbol(sym.PUNTO_COMA, yyline,(int) yychar, yytext());}
 ":"                    {return new Symbol(sym.DOS_PUNTOS, yyline,(int) yychar, yytext());}
-"\""                   {return new Symbol(sym.COMILLA, yyline,(int) yychar, yytext());}
 
 "++"                    {return new Symbol(sym.INCREMENTO, yyline,(int) yychar, yytext());}
-"--"                    {return new Symbol(sym.DECREMENTO, yyline,(int) yychar, yytext());}
 
 "+"                     {return new Symbol(sym.SUMA, yyline,(int) yychar, yytext());}
 "-"                     {return new Symbol(sym.RESTA, yyline,(int) yychar, yytext());}
@@ -95,11 +93,12 @@ TYPEDEF = int|double|char|bool|string
 
 {NUM}                   {return new Symbol(sym.NUM, yyline, (int) yychar, yytext());}
 {STR}                   {return new Symbol(sym.STR, yyline, (int) yychar, (yytext()).substring(1,yytext().length()-1));}
+{BOOLEAN}               {return new Symbol(sym.BOOLEAN, yyline,(int) yychar, yytext());}
 {CHAR}                  {return new Symbol(sym.CHAR, yyline, (int) yychar, (yytext()).substring(1,yytext().length()-1));}
 
 {TYPEDEF}               {return new Symbol(sym.TYPEDEF, yyline, (int) yychar, yytext());}
 {ID}                    {return new Symbol(sym.ID, yyline, (int) yychar, (yytext()).substring(1,yytext().length()-1));}
 
 . {
-    lexicalErrors.add(new LexicalError(yytext(), yyline, (int) yychar));
+    lexicalErrors.add(new ErrorLexico(yytext(), yyline, (int) yychar));
 }

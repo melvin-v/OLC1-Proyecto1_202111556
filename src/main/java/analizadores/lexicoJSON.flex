@@ -1,8 +1,8 @@
 package olc1.project1.analizadores;
 
+import errores.ErrorLexico;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
-import olc1.project1.errors.LexicalError;
 
 %%
 %class Lexico
@@ -14,7 +14,7 @@ import olc1.project1.errors.LexicalError;
 %ignorecase
 
 %{
-    public LinkedList<LexicalError> lexicalErrors;
+    public LinkedList<ErrorLexico> lexicalErrors;
 %}
 
 %init{

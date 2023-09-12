@@ -3,9 +3,11 @@ package analizadores;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import errores.ErrorSintactico;
+import instrucciones.*;
+import enums.*;
 
 parser code {:
-    public LinkedList<Statement> AST;
+    public LinkedList<Instruccion> AST;
     public LinkedList<ErrorSintactico> errores = new LinkedList<>();
     public void error_sintactico(Symbol s) {
         if (s.value != null)
@@ -17,131 +19,112 @@ parser code {:
 :}
 
 terminal String VOID, MAIN;
-terminal String MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL, NOT, OR, AND, PUNTO, INCREMENTO, DECREMENTO;
-terminal string COMA, PUNTO_COMA, DOS_PUNTOS, COMILLA;
+terminal String MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL, NOT, OR, AND, PUNTO, INCREMENTO;
+terminal String PUNTO_COMA, DOS_PUNTOS;
 terminal String SUMA, RESTA, MULTIPLICACION, DIVISION;
-terminal string PARENTESIS_IZQ, PARENTESIS_DER, LLAVE_IZQ, LLAVE_DER;
+terminal String PARENTESIS_IZQ, PARENTESIS_DER, LLAVE_IZQ, LLAVE_DER;
 terminal String IF, ELSE, ELIF, SWITCH, CASE, DEFAULT, SWITCH_BREAK, FOR, WHILE, DO, CONSOLE, WRITE;
-terminal string NUM, STR, CHAR, TYPEDEF, ID;
+terminal String NUM, STR, CHAR, TYPEDEF, ID, BOOLEAN;
 
-non terminal string imprimir;
 non terminal ini;
 
-non terminal LinkedList<Statement> statements;
-non terminal Statement statement;
-non terminal Operation expr;
-non terminal LinkedList<String> name_list;
-non terminal LinkedList<Param> params_list;
-non terminal LinkedList<Operation> args_list;
-non terminal Execute func;
+non terminal LinkedList<Instruccion> statements;
+non terminal Instruccion statement;
+non terminal Operacion expr;
 non terminal LinkedList<Elif> elifs;
 non terminal LinkedList<Case> cases;
 
-non terminal Operation aritmetic;
-non terminal Operation logical;
-non terminal Operation symbols;
-non terminal Operation unitary;
+non terminal Operacion aritmetic;
+non terminal Operacion logical;
+non terminal Operacion symbols;
+non terminal Operacion unitary;
 
 non terminal If if;
-non terminal For for;
 
-non terminal Statement funcstatement;
-non terminal LinkedList<Statement> funcstatements;
+non terminal Instruccion function;
 
-non terminal Statement function;
+non terminal Instruccion mainstatement;
+non terminal LinkedList<Instruccion> mainstatements;
 
-non terminal Statement mainstatement;
-non terminal LinkedList<Statement> mainstatements;
-
-precedence left MAJOR, MINOR, MAJOREQUALS, MINOREQUALS, EQUALS, NOTEQUALS;
+precedence left MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL;
 precedence left AND, OR;
-precedence left ADD, SUBSTRACT;
-precedence left MULTIPLY, DIVISION;
-precedence left POW, MODULE;
-precedence left PARSTART;
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
+precedence left PARENTESIS_IZQ;
 
 start with ini;
 
-ini::= VOID MAIN PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ  mainstatements:a LLAVE_DER {:parser.AST=a;:};
+ini::= VOID MAIN PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ  mainstatements:s LLAVE_DER {:parser.AST=s;:}
+;
 
 mainstatements ::= mainstatements:s mainstatement:t {:RESULT=s; RESULT.add(t);:}
-| mainstatement:s {:RESULT = new LinkedList<Statement>(); RESULT.add(s);:};
+| mainstatement:s {:RESULT = new LinkedList<Instruccion>(); RESULT.add(s);:}
+;
+
 
 mainstatement ::= statement:s {:RESULT = s;:}
 | function:d {:RESULT = d;:};
 
 statements ::= statements:s statement:t {:RESULT=s; RESULT.add(t);:}
-| statement:s {:RESULT = new LinkedList<Statement>(); RESULT.add(s);:};
+| statement:s {:RESULT = new LinkedList<Instruccion>(); RESULT.add(s);:};
 
-statement ::= TYPEDEF:n name_list:t IGUAL expr:e PUNTO_COMA {:RESULT = new Declaration(n, t, e);:}
-| TYPEDEF:n name_list:e PUNTO_COMA {:RESULT = new Assignment(n, e);:}
+statement ::= TYPEDEF:n ID:t IGUAL expr:e PUNTO_COMA {:RESULT = new Asignacion(t,n,e);:}
+| TYPEDEF:n ID:e PUNTO_COMA {:RESULT = new Declaracion(e,n);:}
 | if:i {:RESULT=i;:}
-| for:f {:RESULT=f;:}
-| WHILE PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new While(e, s);:}
-| DO LLAVE_IZQ statements:s LLAVE_DER WHILE PARENTESIS_IZQ expr:e PARENTESIS_DER PUNTO_COMA {:RESULT = new DoWhile(e, s);:}
-| CONSOLE PUNTO WRITE PARENTESIS_IZQ imprimir PARENTESIS_DER PUNTO_COMA {:RESULT = new ConsoleWrite(e);:}
-| SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c LLAVE_DER {:RESULT = new Switch(e, c);:}
-| SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c DEFAULT DOS_PUNTOS statements:s LLAVE_DER {:RESULT = new Switch(e, c, s);:}
-| error DOTCOMMA
-| error ENDIF
-| error ENDFOR
-| error ENDWHILE
-| error ENDPROCEDURE
-| error ENDFUNCTION
-| error ENDSWITCH
-| error ENDREPEAT expr;
-
-imprimir ::= STR
-| STR MAS ID
+| FOR PARENTESIS_IZQ ID:i IGUAL expr:e PUNTO_COMA expr:f PUNTO_COMA ID INCREMENTO PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new For(i,e,f,s);:}
+| WHILE PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new While(e,s);:}
+| DO LLAVE_IZQ statements:e LLAVE_DER WHILE PARENTESIS_IZQ expr:s PARENTESIS_DER PUNTO_COMA {:RESULT = new DoWhile(e,s);:}
+| CONSOLE PUNTO WRITE PARENTESIS_IZQ STR:s PARENTESIS_DER PUNTO_COMA {:RESULT = new Imprimir(s);:}
+| CONSOLE PUNTO WRITE PARENTESIS_IZQ STR:s SUMA ID:e PARENTESIS_DER PUNTO_COMA {:RESULT = new Imprimir(s,e);:}
+| SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c LLAVE_DER {:RESULT = new Switch(e,c);:}
+| SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c DEFAULT DOS_PUNTOS statements:s LLAVE_DER {:RESULT = new Switch(e,c,s);:}
 ;
 
-function ::=  VOID ID:f PARENTESIS_IZQ PARENTESIS_IZQ LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new Procedure(f, s);:}
+
+
+function ::=  VOID ID:f PARENTESIS_IZQ PARENTESIS_IZQ LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new Funcion(f,s);:}
 ;
 
-if ::= IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new If(e, s);:}
-| IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:p LLAVE_DER ELSE LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new If(e, p, s);:}
-| IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER elifs:f  {:RESULT = new If(e, s, f, null);:}
-| IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER elifs:f ELSE LLAVE_IZQ statements:p LLAVE_DER {:RESULT = new If(e, s, f, p);:};
-
-for ::= FOR PARENTESIS_IZQ ID:i IGUAL expr:e PUNTO_COMA expr:f PUNTO_COMA ID:i INCREMENTO PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new For(i, e, f, s);:}
-|FOR PARENTESIS_IZQ ID:i IGUAL expr:e PUNTO_COMA expr:f PUNTO_COMA ID:i DECREMENTO PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new For(i, e, f, s);:}
+if ::= IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new If(e,s);:}
+| IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:p LLAVE_DER ELSE LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new If(e,p,s);:}
+| IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER elifs:f {:RESULT = new If(e,s,f, null);:}
+| IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER elifs:f ELSE LLAVE_IZQ statements:p LLAVE_DER {:RESULT = new If(e,s,f,p);:}
 ;
 
-name_list ::= name_list:n COMMA ID:i {:RESULT = n; RESULT.add(i);:}
-| ID:i {:RESULT = new LinkedList<String>(); RESULT.add(i);:};
+elifs ::= elifs:f ELIF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_DER statements:s LLAVE_IZQ {:new Elif(e,s);:}
+| ELIF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_DER statements:s LLAVE_IZQ {:RESULT = new LinkedList<>(); new Elif(e,s);:}
+;
 
-elifs ::= elifs:f ELIF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_DER statements:s LLAVE_IZQ {:RESULT = f; RESULT.add(new Elif(e, s));:}
-| ELIF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_DER statements:s LLAVE_IZQ {:RESULT = new LinkedList<Elif>(); RESULT.add(new Elif(e, s));:};
-
-cases ::= cases:c CASE DOS_PUNTOS CLOSEQUESTION THEN statements:s {:RESULT = c; RESULT.add(new Case(e, s, false));:}
-| cases:c CASE DOS_PUNTOS CLOSEQUESTION THEN statements:s SWITCH_BREAK {:RESULT = new LinkedList<Case>(); RESULT.add(new Case(e, s, true));:};
+cases ::= cases:c CASE expr:e DOS_PUNTOS statements:s {:c.add(new Case(e,s, false));:}
+| cases:c CASE expr:e DOS_PUNTOS statements:s SWITCH_BREAK {:c.add(new Case(e,s,true));:};
 
 expr ::= symbols:s {:RESULT = s;:}
 | unitary:u {:RESULT = u;:}
 | aritmetic:a {:RESULT = a;:}
 | logical:l {:RESULT = l;:}
-| PARENTESIS_IZQ expr:e PARENTESIS_DER {:RESULT = new Operation(e);:};
+| PARENTESIS_IZQ expr:e PARENTESIS_DER {:RESULT = new Operacion(e);:};
 
-aritmetic ::= expr:a SUMA expr:b {:RESULT = new Operation(a, EnumOperations.ADD, b);:}
-| expr:a RESTA expr:b {:RESULT = new Operation(a, EnumOperations.SUBSTRACT, b);:}
-| expr:a MULTIPLICACION expr:b {:RESULT = new Operation(a, EnumOperations.MULTIPLY, b);:}
-| expr:a DIVISION expr:b {:RESULT = new Operation(a, EnumOperations.DIVISION, b);:}
-| NUM:n {:RESULT = new Operation(n, EnumTerminals.NUM);:};
+aritmetic ::= expr:a SUMA expr:b {:RESULT = new Operacion(a, EnumOperaciones.SUMA, b);:}
+| expr:a RESTA expr:b {:RESULT = new Operacion(a, EnumOperaciones.RESTA, b);:}
+| expr:a MULTIPLICACION expr:b {:RESULT = new Operacion(a, EnumOperaciones.MULTIPLICACION, b);:}
+| expr:a DIVISION expr:b {:RESULT = new Operacion(a, EnumOperaciones.DIVISION, b);:}
+| NUM:n  {: RESULT = new Operacion(n, EnumTerminals.NUM); :};
 
-logical ::= expr:a MAYOR expr:b {:RESULT = new Operation(a, EnumOperations.MAJOR, b);:}
-| expr:a MENOR expr:b {:RESULT = new Operation(a, EnumOperations.MINOR, b);:}
-| expr:a MAYOR_IGUAL expr:b {:RESULT = new Operation(a, EnumOperations.MAJOREQUALS, b);:}
-| expr:a MENOR_IGUAL expr:b {:RESULT = new Operation(a, EnumOperations.MINOREQUALS, b);:}
-| expr:a IGUAL expr:b {:RESULT = new Operation(a, EnumOperations.EQUALS, b);:}
-| expr:a NO_IGUAL expr:b {:RESULT = new Operation(a, EnumOperations.NOTEQUALS, b);:}
-| expr:a AND expr:b {:RESULT = new Operation(a, EnumOperations.AND, b);:}
-| expr:a OR expr:b {:RESULT = new Operation(a, EnumOperations.OR, b);:}
+logical ::= expr:a MAYOR expr:b {:RESULT = new Operacion(a, EnumOperaciones.MAYOR, b);:}
+| expr:a MENOR expr:b {:RESULT = new Operacion(a, EnumOperaciones.MENOR, b);:}
+| expr:a MAYOR_IGUAL expr:b {:RESULT = new Operacion(a, EnumOperaciones.MAYOR_IGUAL, b);:}
+| expr:a MENOR_IGUAL expr:b {:RESULT = new Operacion(a, EnumOperaciones.MENOR_IGUAL, b);:}
+| expr:a IGUAL expr:b {:RESULT = new Operacion(a, EnumOperaciones.IGUAL, b);:}
+| expr:a NO_IGUAL expr:b {:RESULT = new Operacion(a, EnumOperaciones.NO_IGUAL, b);:}
+| expr:a AND expr:b {:RESULT = new Operacion(a, EnumOperaciones.AND, b);:}
+| expr:a OR expr:b {:RESULT = new Operacion(a, EnumOperaciones.OR, b);:}
+| BOOLEAN:b {:RESULT = new Operacion(b, EnumTerminals.BOOLEAN);:}
 ;
 
-symbols ::= ID:i {:RESULT = new Operation(i, EnumTerminals.ID);:}
-| STR:s {:RESULT = new Operation(s, EnumTerminals.STR);:}
-| CHAR:c {:RESULT = new Operation(c, EnumTerminals.CHAR);:};
+symbols ::= ID:i {:RESULT = new Operacion(i, EnumTerminals.ID);:}
+| STR:s {:RESULT = new Operacion(s, EnumTerminals.STR);:}
+| CHAR:c {:RESULT = new Operacion(c, EnumTerminals.CHAR);:} ;
 
-unitary ::= RESTA expr:e {:RESULT = new Operation(e, EnumUnitaryOperations.NEGATIVE);:}
-| NOT expr:e {:RESULT = new Operation(e, EnumUnitaryOperations.NOT);:};
+unitary ::= RESTA expr:e {:RESULT = new Operacion(e, EnumUnitaryOperations.NEGATIVE);:}
+| NOT expr:e {:RESULT = new Operacion(e, EnumUnitaryOperations.NOT);:};
 
