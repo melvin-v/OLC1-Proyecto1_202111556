@@ -78,6 +78,8 @@ statement ::= TYPEDEF:n ID:t IGUAL expr:e PUNTO_COMA {:RESULT = new Asignacion(t
 | CONSOLE PUNTO WRITE PARENTESIS_IZQ STR:s SUMA ID:e PARENTESIS_DER PUNTO_COMA {:RESULT = new Imprimir(s,e);:}
 | SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c LLAVE_DER {:RESULT = new Switch(e,c);:}
 | SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c DEFAULT DOS_PUNTOS statements:s LLAVE_DER {:RESULT = new Switch(e,c,s);:}
+| error PUNTO_COMA
+| error LLAVE_DER
 ;
 
 

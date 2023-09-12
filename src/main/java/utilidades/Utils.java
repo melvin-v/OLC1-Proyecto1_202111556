@@ -8,8 +8,8 @@ import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
-//import analizadores.Lexico;
-//import analizadores.Parser;
+import analizadores.Lexico;
+import analizadores.Parser;
 import enums.EnumTypes;
 import instrucciones.Instruccion;
 import instrucciones.Operacion;
@@ -21,7 +21,7 @@ import errores.ErrorSintactico;
  * @author Xhunik
  */
 public class Utils {
-    /*
+
         public static AnalyzerResult loadFile(String input) throws Exception{
                Lexico scanner = new Lexico(new StringReader(input));
                Parser parser = new Parser(scanner);
@@ -30,32 +30,21 @@ public class Utils {
                } catch (Exception ex) {
                    throw ex;
                }
-               return new AnalyzerResult(scanner.lexicalErrors, parser.errores);
+               return new AnalyzerResult(parser.AST, scanner.lexicalErrors, parser.errores);
            }
 
-*/
+
 
            public static String generarCodigo(LinkedList<Instruccion> ast){
                StringBuilder str = new StringBuilder();
 
-               LinkedList<Instruccion> methods = new LinkedList<>();
                LinkedList<Instruccion> mainStatements = new LinkedList<>();
 
                for (Instruccion statement : ast) {
                    if (statement != null){
-                       String className = statement.getClass().getSimpleName();
-                       if ( "Procedure".equals(className) || "Function".equals(className)){
-                           methods.add(statement);
-                       } else {
                            mainStatements.add(statement);
                        }
-                   }
                }
-
-               for (Instruccion method : methods) {
-                   str.append(method.generarCodigo()).append("\n");
-               }
-
 
                str.append("def main():\n");
                for (Instruccion statement : mainStatements) {

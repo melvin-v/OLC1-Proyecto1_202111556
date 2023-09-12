@@ -2,13 +2,12 @@ package interfaz;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import utilidades.AnalyzerResult;
+import utilidades.Utils;
 
 public class Panel extends JPanel {
     static JTextArea areaTexto;
@@ -31,7 +30,32 @@ public class Panel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String analizador = (String) comboBox.getSelectedItem();
-                System.out.println(analizador);
+                if(analizador.equals("StatPy")){
+                    String codigo = areaTexto.getText();
+                    try{
+                        AnalyzerResult ast = utilidades.Utils.loadFile(codigo);
+                        String traduccion = utilidades.Utils.generarCodigo(ast.ast);
+                        System.out.println("--Analisis finalizado--");
+                    }
+                    catch (Exception exception){
+                        exception.printStackTrace();
+                    }
+                }
+                else if(analizador.equals("JSON")){
+                    String codigo = areaTexto.getText();
+                    try{
+                        //Scanner scanner = new Scanner(new java.io.StringReader(codigo));
+                        //Sintactico sintactico = new Sintactico(scanner);
+                        //sintactico.parse();
+                        System.out.println("--Analisis finalizado--");
+                    }
+                    catch (Exception exception){
+                        exception.printStackTrace();
+                    }
+                }
+                else{
+                    System.out.println("No se ha seleccionado un analizador");
+                }
             }
         });
         panelOpciones.add(label);
@@ -74,20 +98,6 @@ public class Panel extends JPanel {
 
         this.add(panel);
 
-        ActionListener listenerG = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String codigo = areaTexto.getText();
-                try{
-                    //Scanner scanner = new Scanner(new java.io.StringReader(codigo));
-                    //Sintactico sintactico = new Sintactico(scanner);
-                    //sintactico.parse();
-                    System.out.println("--Analisis finalizado--");
-                }
-                catch (Exception exception){
-                    exception.printStackTrace();
-                }
-            }
-        };
 
 
         panel.add(panelOpciones, BorderLayout.NORTH);

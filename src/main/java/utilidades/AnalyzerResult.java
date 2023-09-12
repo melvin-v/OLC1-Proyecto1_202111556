@@ -17,10 +17,11 @@ import instrucciones.Operacion;
  * @author Xhunik
  */
 public class AnalyzerResult {
+    public LinkedList<Instruccion> ast;
     public LinkedList<ErrorLexico> lexErrors;
     public LinkedList<ErrorSintactico> sintaxErrors;
     
-    public AnalyzerResult(LinkedList<ErrorLexico> lexErrors,
+    public AnalyzerResult(LinkedList<Instruccion> ast,LinkedList<ErrorLexico> lexErrors,
                           LinkedList<ErrorSintactico> sintaxErrors){
         this.lexErrors = lexErrors;
         this.sintaxErrors = sintaxErrors;

@@ -36,7 +36,7 @@ TYPEDEF = int|double|char|bool|string
 
 %%
 
-"void"                  {return new Symbol(sym.VOID, yyline,(int) yychar, yytext());}
+"void"                  {System.out.println("void"); return new Symbol(sym.VOID, yyline,(int) yychar, yytext()); }
 "main"                  {return new Symbol(sym.MAIN, yyline,(int) yychar, yytext());}
 
 

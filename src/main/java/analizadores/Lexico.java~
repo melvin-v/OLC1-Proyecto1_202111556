@@ -875,7 +875,7 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 80: break;
           case 37: 
-            { return new Symbol(sym.VOID, yyline,(int) yychar, yytext());
+            { System.out.println("void"); return new Symbol(sym.VOID, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 81: break;

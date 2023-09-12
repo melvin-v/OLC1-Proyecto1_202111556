@@ -7,7 +7,6 @@ public class Generador {
     private static void compilar(){
 
         try {
-
             String ruta = "src/main/java/analizadores/";
             //ruta donde tenemos los archivos con extension .jflex y .cup
             String opcFlex[] = { ruta + "lexicoStatPy.flex", "-d", ruta };
