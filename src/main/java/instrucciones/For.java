@@ -14,19 +14,15 @@ public class For implements Instruccion{
         this.varId = varId;
         this.expr1 = expr1;
         this.expr2 = expr2;
-        this.incremental = 1;
         this.statements = statements;
     }
 
     @Override
     public String generarCodigo(){
         StringBuilder str = new StringBuilder();
-
-        str.append("for ").append(varId).append(" in range(").append(expr1.generarCodigo())
-                .append(",").append(expr2.generarCodigo());
-
-        if (incremental != 0)
-            str.append(",").append(incremental);
+        int primero = Integer.parseInt(expr1.generarCodigo()) + 1;
+        str.append("for ").append(varId).append(" in range(").append(primero)
+                .append(",").append(expr2.right.generarCodigo());
 
         str.append("):\n");
 

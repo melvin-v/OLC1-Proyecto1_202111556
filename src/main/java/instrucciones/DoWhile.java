@@ -12,12 +12,12 @@ public class DoWhile implements Instruccion{
     @Override
     public String generarCodigo(){
         StringBuilder str = new StringBuilder();
-        str.append("do:\n");
+        str.append("While True\n");
         for (Instruccion instruccion : instrucciones) {
             if (instruccion != null)
-                str.append(instruccion.generarCodigo()).append("\n");
+                str.append("\t").append(instruccion.generarCodigo()).append("\n");
         }
-        str.append("while ").append(expr.generarCodigo()).append("\n");
+        str.append("if (").append(expr.generarCodigo()).append(")\n\tbreak");
         return str.toString();
     }
 }

@@ -36,13 +36,13 @@ public class If implements Instruccion {
         str.append("if ").append(expr.generarCodigo()).append(":\n");
         for (Instruccion statement : statements) {
             if (statement != null)
-                str.append(Utils.addTabs(statement.generarCodigo())).append("\n");
+                str.append(Utils.addTabs(statement.generarCodigo()));
         }
 
         if (elifs != null){
 
             for (Elif elif : elifs) {
-                str.append(elif.generarCodigo()).append("\n");
+                str.append(elif.generarCodigo());
             }
 
         }

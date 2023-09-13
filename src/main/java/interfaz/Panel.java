@@ -25,6 +25,43 @@ public class Panel extends JPanel {
         String[] analizadores = {"StatPy", "JSON"};
         JComboBox<String> comboBox = new JComboBox<>(analizadores);
 
+
+        panelOpciones.add(label);
+        panelOpciones.add(comboBox);
+
+
+
+        //------------------------- Crear un nuevo área de texto-----------------
+        areaTexto = new JTextArea();
+
+        // Establecer el texto y algunas propiedades del área de texto
+        areaTexto.setEditable(true);
+        areaTexto.setLineWrap(true);
+        areaTexto.setWrapStyleWord(true);
+        areaTexto.setRows(20);
+        areaTexto.setColumns(50);
+        // Agregar el área de texto a un panel con barra de desplazamiento
+        JScrollPane panelTexto = new JScrollPane(areaTexto);
+        panelTexto.setBorder(new EmptyBorder(0, 0, 10, 0));
+        cajas.add(panelTexto); // Agregar el JScrollPane en lugar del área de texto directamente
+
+        // --------------------------------Crear un JTextPane para mostrar el texto-------------------------
+        JTextArea salida = new JTextArea();
+        // Establecer el texto y algunas propiedades del área de texto
+        salida.setEditable(false);
+        salida.setLineWrap(true);
+        salida.setWrapStyleWord(true);
+        salida.setRows(20);
+        salida.setColumns(50);
+
+        // Agregar el área de texto a un panel con barra de desplazamiento
+        JScrollPane panelTexto2 = new JScrollPane(salida);
+        panelTexto2.setBorder(new EmptyBorder(0, 0, 10, 0));
+        cajas.add(panelTexto2); // Agregar el JScrollPane en lugar del área de texto directamente
+
+        add(panelOpciones, BorderLayout.NORTH);
+        add(cajas, BorderLayout.CENTER);
+
         JButton enviarButton = new JButton("Enviar");
         enviarButton.addActionListener(new ActionListener() {
             @Override
@@ -35,6 +72,7 @@ public class Panel extends JPanel {
                     try{
                         AnalyzerResult ast = utilidades.Utils.loadFile(codigo);
                         String traduccion = utilidades.Utils.generarCodigo(ast.ast);
+                        salida.setText(traduccion);
                         System.out.println("--Analisis finalizado--");
                     }
                     catch (Exception exception){
@@ -58,49 +96,6 @@ public class Panel extends JPanel {
                 }
             }
         });
-        panelOpciones.add(label);
-        panelOpciones.add(comboBox);
         panelOpciones.add(enviarButton);
-
-
-        //------------------------- Crear un nuevo área de texto-----------------
-        areaTexto = new JTextArea();
-
-        // Establecer el texto y algunas propiedades del área de texto
-        areaTexto.setEditable(true);
-        areaTexto.setLineWrap(true);
-        areaTexto.setWrapStyleWord(true);
-        areaTexto.setRows(20);
-        areaTexto.setColumns(50);
-
-        // Agregar el área de texto a un panel con barra de desplazamiento
-        JScrollPane panelTexto = new JScrollPane(areaTexto);
-        panelTexto.setBorder(new EmptyBorder(0, 0, 10, 0));
-
-        cajas.add(areaTexto);
-
-
-        // --------------------------------Crear un JTextPane para mostrar el texto-------------------------
-        JTextArea salida = new JTextArea();
-        salida.setBackground(Color.BLACK);
-        // Establecer el texto y algunas propiedades del área de texto
-        salida.setEditable(false);
-        salida.setLineWrap(true);
-        salida.setWrapStyleWord(true);
-        salida.setRows(20);
-        salida.setColumns(50);
-
-        // Agregar el área de texto a un panel con barra de desplazamiento
-        JScrollPane panelTexto2 = new JScrollPane(salida);
-        panelTexto2.setBorder(new EmptyBorder(0, 0, 10, 0));
-
-        cajas.add(salida);
-
-        this.add(panel);
-
-
-
-        panel.add(panelOpciones, BorderLayout.NORTH);
-        panel.add(cajas, BorderLayout.SOUTH);
     }
 }

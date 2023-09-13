@@ -4,6 +4,7 @@ import errores.ErrorLexico;import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 
 %%
+%debug
 %class Lexico
 %public
 %line
@@ -29,17 +30,18 @@ COMMENTMULTILINE = "/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
 STR = [\"][^\"]*[\"]
 NUM = [0-9]+("."[  |0-9]+)?
 BOOLEAN = true|false
-CHAR = ([\']([^\t\'\"\n]|(\\\")|(\\n)|(\\\')|(\\t))?[\'])|(['][\$][{](6[5-9]|[7-8][0-9]|90|9[7-9]|10[0-9]|11[0-9]|12[0-2])[}]['])
+CHAR = '[a-zA-Z]'
 
-ID = "_"[0-9A-Za-z_]+"_"
+
+ID = [A-Za-z]+["_"0-9A-Za-z]*
 TYPEDEF = int|double|char|bool|string
 
 %%
 
-"void"                  {System.out.println("void"); return new Symbol(sym.VOID, yyline,(int) yychar, yytext()); }
+"void"                  {return new Symbol(sym.VOID, yyline,(int) yychar, yytext()); }
 "main"                  {return new Symbol(sym.MAIN, yyline,(int) yychar, yytext());}
 
-
+"="                    {return new Symbol(sym.IGUAL, yyline,(int) yychar, yytext());}
 ">"                 {return new Symbol(sym.MAYOR, yyline,(int) yychar, yytext());}
 "<"                 {return new Symbol(sym.MENOR, yyline,(int) yychar, yytext());}
 ">="                {return new Symbol(sym.MAYOR_IGUAL, yyline,(int) yychar, yytext());}
@@ -70,7 +72,6 @@ TYPEDEF = int|double|char|bool|string
 
 "if"                    {return new Symbol(sym.IF, yyline,(int) yychar, yytext());}
 "else"                  {return new Symbol(sym.ELSE, yyline,(int) yychar, yytext());}
-"elif"                  {return new Symbol(sym.ELIF, yyline,(int) yychar, yytext());}
 
 "switch"             {return new Symbol(sym.SWITCH, yyline,(int) yychar, yytext());}
 "case"               {return new Symbol(sym.CASE, yyline,(int) yychar, yytext());}
@@ -94,10 +95,10 @@ TYPEDEF = int|double|char|bool|string
 {NUM}                   {return new Symbol(sym.NUM, yyline, (int) yychar, yytext());}
 {STR}                   {return new Symbol(sym.STR, yyline, (int) yychar, (yytext()).substring(1,yytext().length()-1));}
 {BOOLEAN}               {return new Symbol(sym.BOOLEAN, yyline,(int) yychar, yytext());}
-{CHAR}                  {return new Symbol(sym.CHAR, yyline, (int) yychar, (yytext()).substring(1,yytext().length()-1));}
+{CHAR}                  {return new Symbol(sym.CHAR, yyline, (int) yychar, (yytext()));}
 
 {TYPEDEF}               {return new Symbol(sym.TYPEDEF, yyline, (int) yychar, yytext());}
-{ID}                    {return new Symbol(sym.ID, yyline, (int) yychar, (yytext()).substring(1,yytext().length()-1));}
+{ID}                    {return new Symbol(sym.ID, yyline, (int) yychar, (yytext()));}
 
 . {
     lexicalErrors.add(new ErrorLexico(yytext(), yyline, (int) yychar));

@@ -11,6 +11,7 @@ public class Asignacion implements Instruccion{
     public Asignacion(String id, String type, Operacion expr){
         this.id = id;
         this.type = Utils.checkTypes(type);
+        this.expr = expr;
     }
     @Override
     public String generarCodigo() {

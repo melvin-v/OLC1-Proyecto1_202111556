@@ -38,12 +38,18 @@ public class Utils {
            public static String generarCodigo(LinkedList<Instruccion> ast){
                StringBuilder str = new StringBuilder();
 
+               LinkedList<Instruccion> funciones = new LinkedList<>();
                LinkedList<Instruccion> mainStatements = new LinkedList<>();
 
                for (Instruccion statement : ast) {
                    if (statement != null){
+                       String className = statement.getClass().getSimpleName();
+                       if ( "Funcion".equals(className)){
+                           funciones.add(statement);
+                       } else {
                            mainStatements.add(statement);
                        }
+                   }
                }
 
                str.append("def main():\n");
@@ -59,17 +65,20 @@ public class Utils {
            public static EnumTypes checkTypes(String type){
                type = type.toLowerCase();
                 switch (type) {
-                   case "numero" -> {
+                   case "int" -> {
                        return EnumTypes.NUM;
                    }
-                   case "cadena" -> {
+                   case "string" -> {
                        return EnumTypes.STR;
                    }
-                   case "boolean" -> {
-                       return EnumTypes.BOOLEAN;
+                   case "bool" -> {
+                       return EnumTypes.BOOL;
                    }
-                   case "caracter" -> {
+                   case "char" -> {
                        return EnumTypes.CHAR;
+                   }
+                   case "double" -> {
+                       return EnumTypes.DOUBLE;
                    }
                    default -> throw new AssertionError();
                }
@@ -77,7 +86,7 @@ public class Utils {
 
            public static String viewTypes(EnumTypes type){
                switch (type) {
-                   case BOOLEAN -> {
+                   case BOOL -> {
                        return "bool";
                    }
                    case CHAR -> {

@@ -39,7 +39,7 @@ NUM = [0-9]+("."[  |0-9]+)?
 
 {BLANK}                 {}
 {NUM}                   {return new Symbol(sym.NUM, yyline, (int) yychar, yytext());}
-{STR}                   {return new Symbol(sym.STR, yyline, (int) yychar, (yytext()).substring(1,yytext().length()-1));}
+{STR}                   {return new Symbol(sym.STR, yyline, (int) yychar, (yytext()));}
 
 . {
     lexicalErrors.add(new LexicalError(yytext(), yyline, (int) yychar));

@@ -9,47 +9,46 @@ package analizadores;
 public class sym {
   /* terminals */
   public static final int PARENTESIS_IZQ = 21;
-  public static final int CHAR = 39;
-  public static final int STR = 38;
-  public static final int CASE = 29;
+  public static final int CHAR = 38;
+  public static final int STR = 37;
+  public static final int CASE = 28;
   public static final int RESTA = 18;
   public static final int DOS_PUNTOS = 16;
-  public static final int FOR = 32;
-  public static final int WRITE = 36;
+  public static final int FOR = 31;
+  public static final int WRITE = 35;
   public static final int LLAVE_IZQ = 23;
   public static final int NOT = 10;
   public static final int AND = 12;
   public static final int IGUAL = 8;
   public static final int OR = 11;
   public static final int INCREMENTO = 14;
-  public static final int NUM = 37;
+  public static final int NUM = 36;
   public static final int SUMA = 17;
-  public static final int TYPEDEF = 40;
+  public static final int TYPEDEF = 39;
   public static final int MAIN = 3;
   public static final int IF = 25;
-  public static final int ID = 41;
+  public static final int ID = 40;
   public static final int PUNTO_COMA = 15;
-  public static final int BOOLEAN = 42;
+  public static final int BOOLEAN = 41;
   public static final int EOF = 0;
   public static final int PARENTESIS_DER = 22;
   public static final int error = 1;
   public static final int MENOR = 5;
   public static final int VOID = 2;
   public static final int NO_IGUAL = 9;
-  public static final int SWITCH = 28;
+  public static final int SWITCH = 27;
   public static final int MAYOR = 4;
   public static final int ELSE = 26;
   public static final int LLAVE_DER = 24;
-  public static final int SWITCH_BREAK = 31;
+  public static final int SWITCH_BREAK = 30;
   public static final int PUNTO = 13;
-  public static final int WHILE = 33;
-  public static final int DEFAULT = 30;
+  public static final int WHILE = 32;
+  public static final int DEFAULT = 29;
   public static final int MAYOR_IGUAL = 6;
   public static final int MENOR_IGUAL = 7;
   public static final int DIVISION = 20;
-  public static final int ELIF = 27;
-  public static final int CONSOLE = 35;
-  public static final int DO = 34;
+  public static final int DO = 33;
+  public static final int CONSOLE = 34;
   public static final int MULTIPLICACION = 19;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -79,7 +78,6 @@ public class sym {
   "LLAVE_DER",
   "IF",
   "ELSE",
-  "ELIF",
   "SWITCH",
   "CASE",
   "DEFAULT",

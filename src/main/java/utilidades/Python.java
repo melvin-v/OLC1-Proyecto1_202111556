@@ -61,7 +61,7 @@ public class Python {
      */
     public static String pythonTerminals(String value, EnumTerminals type) {
         switch (type) {
-            case BOOLEAN -> {
+            case BOOL -> {
                 if ("verdadero".equals(value)) {
                     return "True";
                 } else if ("falso".equals(value)) {

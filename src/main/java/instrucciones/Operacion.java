@@ -45,15 +45,6 @@ public class Operacion implements Instruccion {
     public Operacion(String value, EnumTerminals typeTerminal){
         this.typeTerminal = typeTerminal;
         this.typeOp = TypeOperation.TERMINAL;
-
-        if (typeTerminal == EnumTerminals.CHAR){
-            if (value.length() > 1){
-                this.value = Character.toString((char) Integer.parseInt(value.replace("${", "").replace("}", "")));
-            } else {
-                this.value = value;
-            }
-            return;
-        }
         this.value = value;
 
     }

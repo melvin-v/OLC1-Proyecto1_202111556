@@ -22,12 +22,13 @@ public class Switch implements Instruccion{
     public String generarCodigo() {
         StringBuilder str = new StringBuilder();
         str.append("def switch(expr):\n").append("\tswitcher = {\n");
-        int i = 1;
+        int i = 0;
         for (Case aCase : cases) {
             str.append(aCase.generarCodigo());
             i++;
         }
         if (else_statements != null) {
+            i++;
             str.append(i).append(": ");
             for (Instruccion else_statement : else_statements) {
                 if (else_statement != null)

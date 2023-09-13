@@ -14,7 +14,7 @@ public class Imprimir implements Instruccion{
     public String generarCodigo(){
        StringBuilder str = new StringBuilder();
        if (id != null)
-           str.append("print(\"").append(texto).append("\", ").append(id).append(")\n");
+           str.append("print(\"").append(texto).append("\", ").append(id).append(")");
        else {
            str.append("print(\"").append(texto).append("\")");
        }

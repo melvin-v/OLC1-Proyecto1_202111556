@@ -23,7 +23,7 @@ terminal String MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL, NOT, OR
 terminal String PUNTO_COMA, DOS_PUNTOS;
 terminal String SUMA, RESTA, MULTIPLICACION, DIVISION;
 terminal String PARENTESIS_IZQ, PARENTESIS_DER, LLAVE_IZQ, LLAVE_DER;
-terminal String IF, ELSE, ELIF, SWITCH, CASE, DEFAULT, SWITCH_BREAK, FOR, WHILE, DO, CONSOLE, WRITE;
+terminal String IF, ELSE, SWITCH, CASE, DEFAULT, SWITCH_BREAK, FOR, WHILE, DO, CONSOLE, WRITE;
 terminal String NUM, STR, CHAR, TYPEDEF, ID, BOOLEAN;
 
 non terminal ini;
@@ -33,6 +33,7 @@ non terminal Instruccion statement;
 non terminal Operacion expr;
 non terminal LinkedList<Elif> elifs;
 non terminal LinkedList<Case> cases;
+non terminal Case case;
 
 non terminal Operacion aritmetic;
 non terminal Operacion logical;
@@ -67,11 +68,12 @@ mainstatement ::= statement:s {:RESULT = s;:}
 
 statements ::= statements:s statement:t {:RESULT=s; RESULT.add(t);:}
 | statement:s {:RESULT = new LinkedList<Instruccion>(); RESULT.add(s);:};
-
+// Agregar produccion para variables ya declaradas
 statement ::= TYPEDEF:n ID:t IGUAL expr:e PUNTO_COMA {:RESULT = new Asignacion(t,n,e);:}
 | TYPEDEF:n ID:e PUNTO_COMA {:RESULT = new Declaracion(e,n);:}
+| ID:i IGUAL expr:e PUNTO_COMA {:RESULT = new ReAsignacion(i,e);:}
 | if:i {:RESULT=i;:}
-| FOR PARENTESIS_IZQ ID:i IGUAL expr:e PUNTO_COMA expr:f PUNTO_COMA ID INCREMENTO PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new For(i,e,f,s);:}
+| FOR PARENTESIS_IZQ TYPEDEF ID:i IGUAL expr:e PUNTO_COMA expr:f PUNTO_COMA ID INCREMENTO PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new For(i,e,f,s);:}
 | WHILE PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new While(e,s);:}
 | DO LLAVE_IZQ statements:e LLAVE_DER WHILE PARENTESIS_IZQ expr:s PARENTESIS_DER PUNTO_COMA {:RESULT = new DoWhile(e,s);:}
 | CONSOLE PUNTO WRITE PARENTESIS_IZQ STR:s PARENTESIS_DER PUNTO_COMA {:RESULT = new Imprimir(s);:}
@@ -82,7 +84,14 @@ statement ::= TYPEDEF:n ID:t IGUAL expr:e PUNTO_COMA {:RESULT = new Asignacion(t
 | error LLAVE_DER
 ;
 
+impresiones ::= impresiones:s impresion:t
+| impresion:s
+;
 
+impresion ::= impresion expr MAS
+| impresion STR MAS
+| expr
+| STR
 
 function ::=  VOID ID:f PARENTESIS_IZQ PARENTESIS_IZQ LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new Funcion(f,s);:}
 ;
@@ -93,12 +102,16 @@ if ::= IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER 
 | IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER elifs:f ELSE LLAVE_IZQ statements:p LLAVE_DER {:RESULT = new If(e,s,f,p);:}
 ;
 
-elifs ::= elifs:f ELIF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_DER statements:s LLAVE_IZQ {:new Elif(e,s);:}
-| ELIF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_DER statements:s LLAVE_IZQ {:RESULT = new LinkedList<>(); new Elif(e,s);:}
+elifs ::= elifs:f ELSE IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = f; RESULT.add(new Elif(e, s));:}
+| ELSE IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new LinkedList<Elif>(); RESULT.add(new Elif(e, s));:}
+;
+cases ::= cases:s  case:t {:RESULT=s; RESULT.add(t);:}
+| case:s {:RESULT = new LinkedList<Case>(); RESULT.add(s);:}
 ;
 
-cases ::= cases:c CASE expr:e DOS_PUNTOS statements:s {:c.add(new Case(e,s, false));:}
-| cases:c CASE expr:e DOS_PUNTOS statements:s SWITCH_BREAK {:c.add(new Case(e,s,true));:};
+case ::= CASE expr:e DOS_PUNTOS statements:s {:RESULT = new Case(e,s, false);:}
+|CASE expr:e DOS_PUNTOS statements:s SWITCH_BREAK {:RESULT = new Case(e,s, true);:}
+;
 
 expr ::= symbols:s {:RESULT = s;:}
 | unitary:u {:RESULT = u;:}

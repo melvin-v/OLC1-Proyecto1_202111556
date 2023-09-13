@@ -16,7 +16,7 @@ public class Root extends JFrame implements ActionListener {
     JMenuItem rLexico;
 
     public Root() {
-        setBounds(300, 100, 1200, 500);
+        setBounds(300, 100, 1500, 500);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("StatPy");

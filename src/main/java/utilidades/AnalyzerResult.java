@@ -23,6 +23,7 @@ public class AnalyzerResult {
     
     public AnalyzerResult(LinkedList<Instruccion> ast,LinkedList<ErrorLexico> lexErrors,
                           LinkedList<ErrorSintactico> sintaxErrors){
+        this.ast = ast;
         this.lexErrors = lexErrors;
         this.sintaxErrors = sintaxErrors;
     }
