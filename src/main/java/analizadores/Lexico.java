@@ -70,11 +70,11 @@ public class Lexico implements java_cup.runtime.Scanner {
     "\1\10\1\0\1\10\1\0\1\10\1\0\1\10\2\0"+
     "\1\41\2\42\3\0\5\10\2\43\1\0\1\10\2\44"+
     "\2\45\1\0\1\10\1\0\1\10\1\0\1\2\1\41"+
-    "\2\0\4\10\1\0\1\10\1\0\1\10\2\46\2\47"+
-    "\2\50\1\10\2\0\1\10\1\51\1\52\2\53";
+    "\2\0\4\10\2\46\1\0\1\10\2\47\2\50\2\51"+
+    "\1\10\1\0\1\10\1\52\2\53";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[158];
+    int [] result = new int[156];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -116,12 +116,12 @@ public class Lexico implements java_cup.runtime.Scanner {
     "\0\u1056\0\u1089\0\u10bc\0\u10ef\0\u1122\0\u1155\0\u1188\0\63"+
     "\0\u0198\0\u11bb\0\u11ee\0\63\0\u0198\0\63\0\u0198\0\u1221"+
     "\0\u1254\0\u1287\0\u12ba\0\u12ed\0\u12ed\0\63\0\u1320\0\u1353"+
-    "\0\u1386\0\u13b9\0\u13ec\0\u141f\0\u1452\0\u1485\0\u14b8\0\u14eb"+
-    "\0\63\0\u0198\0\63\0\u0198\0\63\0\u0198\0\u151e\0\u1551"+
-    "\0\u1584\0\u15b7\0\u0198\0\63\0\63\0\u0198";
+    "\0\u1386\0\u13b9\0\u13ec\0\u141f\0\63\0\u0198\0\u1452\0\u1485"+
+    "\0\63\0\u0198\0\63\0\u0198\0\63\0\u0198\0\u14b8\0\u14eb"+
+    "\0\u151e\0\u0198\0\63\0\u0198";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[158];
+    int [] result = new int[156];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -266,17 +266,15 @@ public class Lexico implements java_cup.runtime.Scanner {
     "\1\14\3\0\6\14\1\227\2\0\3\14\1\0\12\14"+
     "\15\0\1\14\1\0\1\14\10\0\1\14\3\0\3\14"+
     "\1\132\3\14\2\0\3\14\1\0\12\14\15\0\1\14"+
-    "\1\0\1\14\13\0\1\230\57\0\1\14\2\0\1\230"+
-    "\7\14\2\0\3\14\1\0\12\14\15\0\1\14\1\0"+
-    "\1\14\22\0\1\231\50\0\1\14\3\0\6\14\1\232"+
-    "\2\0\3\14\1\0\12\14\15\0\1\14\1\0\1\14"+
-    "\10\0\1\14\3\0\1\233\6\14\2\0\3\14\1\0"+
-    "\12\14\15\0\1\14\1\0\1\14\13\0\1\234\66\0"+
-    "\1\235\53\0\1\14\3\0\3\14\1\236\3\14\2\0"+
-    "\3\14\1\0\12\14\15\0\1\14\1\0\1\14";
+    "\1\0\1\14\22\0\1\230\50\0\1\14\3\0\6\14"+
+    "\1\231\2\0\3\14\1\0\12\14\15\0\1\14\1\0"+
+    "\1\14\10\0\1\14\3\0\1\232\6\14\2\0\3\14"+
+    "\1\0\12\14\15\0\1\14\1\0\1\14\17\0\1\233"+
+    "\53\0\1\14\3\0\3\14\1\234\3\14\2\0\3\14"+
+    "\1\0\12\14\15\0\1\14\1\0\1\14";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[5610];
+    int [] result = new int[5457];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -322,12 +320,12 @@ public class Lexico implements java_cup.runtime.Scanner {
     "\1\0\1\1\1\0\1\1\2\0\1\1\1\11\1\1"+
     "\3\0\5\1\1\11\1\1\1\0\1\1\1\11\1\1"+
     "\1\11\1\1\1\0\1\1\1\0\1\1\1\0\1\1"+
-    "\1\11\2\0\4\1\1\0\1\1\1\0\1\1\1\11"+
-    "\1\1\1\11\1\1\1\11\2\1\2\0\2\1\2\11"+
+    "\1\11\2\0\4\1\1\11\1\1\1\0\1\1\1\11"+
+    "\1\1\1\11\1\1\1\11\2\1\1\0\2\1\1\11"+
     "\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[158];
+    int [] result = new int[156];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -1068,36 +1066,36 @@ public class Lexico implements java_cup.runtime.Scanner {
           case 80: break;
           case 38: 
             System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [88] { return new Symbol(sym.WRITE, yyline,(int) yychar, yytext()); }");
-            { return new Symbol(sym.WRITE, yyline,(int) yychar, yytext());
+            System.out.println("action [79] { return new Symbol(sym.SWITCH_BREAK, yyline,(int) yychar, yytext()); }");
+            { return new Symbol(sym.SWITCH_BREAK, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 81: break;
           case 39: 
             System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [83] { return new Symbol(sym.WHILE, yyline,(int) yychar, yytext()); }");
-            { return new Symbol(sym.WHILE, yyline,(int) yychar, yytext());
+            System.out.println("action [88] { return new Symbol(sym.WRITE, yyline,(int) yychar, yytext()); }");
+            { return new Symbol(sym.WRITE, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 82: break;
           case 40: 
             System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [76] { return new Symbol(sym.SWITCH, yyline,(int) yychar, yytext()); }");
-            { return new Symbol(sym.SWITCH, yyline,(int) yychar, yytext());
+            System.out.println("action [83] { return new Symbol(sym.WHILE, yyline,(int) yychar, yytext()); }");
+            { return new Symbol(sym.WHILE, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 83: break;
           case 41: 
             System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [78] { return new Symbol(sym.DEFAULT, yyline,(int) yychar, yytext()); }");
-            { return new Symbol(sym.DEFAULT, yyline,(int) yychar, yytext());
+            System.out.println("action [76] { return new Symbol(sym.SWITCH, yyline,(int) yychar, yytext()); }");
+            { return new Symbol(sym.SWITCH, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 84: break;
           case 42: 
             System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [79] { return new Symbol(sym.SWITCH_BREAK, yyline,(int) yychar, yytext()); }");
-            { return new Symbol(sym.SWITCH_BREAK, yyline,(int) yychar, yytext());
+            System.out.println("action [78] { return new Symbol(sym.DEFAULT, yyline,(int) yychar, yytext()); }");
+            { return new Symbol(sym.DEFAULT, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 85: break;

@@ -47,6 +47,9 @@ non terminal Instruccion function;
 non terminal Instruccion mainstatement;
 non terminal LinkedList<Instruccion> mainstatements;
 
+non terminal LinkedList<ImprimirExpresion> impresiones;
+non terminal ImprimirExpresion impresion;
+
 precedence left MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL;
 precedence left AND, OR;
 precedence left SUMA, RESTA;
@@ -68,7 +71,7 @@ mainstatement ::= statement:s {:RESULT = s;:}
 
 statements ::= statements:s statement:t {:RESULT=s; RESULT.add(t);:}
 | statement:s {:RESULT = new LinkedList<Instruccion>(); RESULT.add(s);:};
-// Agregar produccion para variables ya declaradas
+
 statement ::= TYPEDEF:n ID:t IGUAL expr:e PUNTO_COMA {:RESULT = new Asignacion(t,n,e);:}
 | TYPEDEF:n ID:e PUNTO_COMA {:RESULT = new Declaracion(e,n);:}
 | ID:i IGUAL expr:e PUNTO_COMA {:RESULT = new ReAsignacion(i,e);:}
@@ -76,22 +79,21 @@ statement ::= TYPEDEF:n ID:t IGUAL expr:e PUNTO_COMA {:RESULT = new Asignacion(t
 | FOR PARENTESIS_IZQ TYPEDEF ID:i IGUAL expr:e PUNTO_COMA expr:f PUNTO_COMA ID INCREMENTO PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new For(i,e,f,s);:}
 | WHILE PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new While(e,s);:}
 | DO LLAVE_IZQ statements:e LLAVE_DER WHILE PARENTESIS_IZQ expr:s PARENTESIS_DER PUNTO_COMA {:RESULT = new DoWhile(e,s);:}
-| CONSOLE PUNTO WRITE PARENTESIS_IZQ STR:s PARENTESIS_DER PUNTO_COMA {:RESULT = new Imprimir(s);:}
-| CONSOLE PUNTO WRITE PARENTESIS_IZQ STR:s SUMA ID:e PARENTESIS_DER PUNTO_COMA {:RESULT = new Imprimir(s,e);:}
+| CONSOLE PUNTO WRITE PARENTESIS_IZQ impresiones:s PARENTESIS_DER PUNTO_COMA {:RESULT = new Imprimir(s);:}
 | SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c LLAVE_DER {:RESULT = new Switch(e,c);:}
 | SWITCH PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ cases:c DEFAULT DOS_PUNTOS statements:s LLAVE_DER {:RESULT = new Switch(e,c,s);:}
+| SWITCH_BREAK PUNTO_COMA {:RESULT = new SentenciaBreak();:}
 | error PUNTO_COMA
 | error LLAVE_DER
 ;
 
-impresiones ::= impresiones:s impresion:t
-| impresion:s
+impresiones ::= impresiones:s impresion:t {:RESULT=s; RESULT.add(t);:}
+| impresion:s {:RESULT = new LinkedList<ImprimirExpresion>(); RESULT.add(s);:}
 ;
 
-impresion ::= impresion expr MAS
-| impresion STR MAS
-| expr
-| STR
+impresion ::=  expr:s SUMA {:RESULT = new ImprimirExpresion(s);:}
+| expr:s {:RESULT = new ImprimirExpresion(s);:}
+;
 
 function ::=  VOID ID:f PARENTESIS_IZQ PARENTESIS_IZQ LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new Funcion(f,s);:}
 ;
@@ -133,7 +135,7 @@ logical ::= expr:a MAYOR expr:b {:RESULT = new Operacion(a, EnumOperaciones.MAYO
 | expr:a NO_IGUAL expr:b {:RESULT = new Operacion(a, EnumOperaciones.NO_IGUAL, b);:}
 | expr:a AND expr:b {:RESULT = new Operacion(a, EnumOperaciones.AND, b);:}
 | expr:a OR expr:b {:RESULT = new Operacion(a, EnumOperaciones.OR, b);:}
-| BOOLEAN:b {:RESULT = new Operacion(b, EnumTerminals.BOOLEAN);:}
+| BOOLEAN:b {:RESULT = new Operacion(b, EnumTerminals.BOOL);:}
 ;
 
 symbols ::= ID:i {:RESULT = new Operacion(i, EnumTerminals.ID);:}

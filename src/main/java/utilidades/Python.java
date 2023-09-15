@@ -62,9 +62,9 @@ public class Python {
     public static String pythonTerminals(String value, EnumTerminals type) {
         switch (type) {
             case BOOL -> {
-                if ("verdadero".equals(value)) {
+                if ("True".equals(value)) {
                     return "True";
-                } else if ("falso".equals(value)) {
+                } else if ("False".equals(value)) {
                     return "False";
                 }
             }

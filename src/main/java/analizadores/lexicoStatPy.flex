@@ -76,7 +76,7 @@ TYPEDEF = int|double|char|bool|string
 "switch"             {return new Symbol(sym.SWITCH, yyline,(int) yychar, yytext());}
 "case"               {return new Symbol(sym.CASE, yyline,(int) yychar, yytext());}
 "default"            {return new Symbol(sym.DEFAULT, yyline,(int) yychar, yytext());}
-"break  "            {return new Symbol(sym.SWITCH_BREAK, yyline,(int) yychar, yytext());}
+"break"            {return new Symbol(sym.SWITCH_BREAK, yyline,(int) yychar, yytext());}
 
 "for"              {return new Symbol(sym.FOR, yyline,(int) yychar, yytext());}
 

@@ -1,23 +1,28 @@
 package instrucciones;
 
+import enums.EnumTerminals;
+
+import java.util.LinkedList;
+
 public class Imprimir implements Instruccion{
-    String texto;
-    String id;
-    public Imprimir(String texto){
-        this.texto = texto;
-    }
-    public Imprimir(String texto, String id){
-        this.texto = texto;
-        this.id = id;
+    LinkedList<ImprimirExpresion> lista;
+    public Imprimir(LinkedList<ImprimirExpresion> lista){
+        this.lista = lista;
     }
     @Override
     public String generarCodigo(){
        StringBuilder str = new StringBuilder();
-       if (id != null)
-           str.append("print(\"").append(texto).append("\", ").append(id).append(")");
-       else {
-           str.append("print(\"").append(texto).append("\")");
+       str.append("print(\"");
+       for (ImprimirExpresion instruccion : lista) {
+           if (instruccion.opr.typeTerminal == EnumTerminals.STR) {
+               str.append(instruccion.generarCodigo());
+           } else{
+                str.append(instruccion.generarCodigo());
+           }
+           str.append(" + ");
        }
+       str.delete(str.length()-3, str.length());
+       str.append("\")");
        return str.toString();
     }
 }
