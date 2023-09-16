@@ -1,4 +1,4 @@
-package olc1.project1.analizadores;
+package analizadores.json;
 
 import errores.ErrorLexico;
 import java_cup.runtime.Symbol;
@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 %%
 %class Lexico
+%debug
 %public
 %line
 %char
@@ -14,11 +15,11 @@ import java.util.LinkedList;
 %ignorecase
 
 %{
-    public LinkedList<ErrorLexico> lexicalErrors;
+    public LinkedList<ErrorLexico> erroresLexicos;
 %}
 
 %init{
-lexicalErrors = new LinkedList<>();
+erroresLexicos = new LinkedList<>();
     yyline = 1;
     yychar = 1;
 %init}
@@ -31,16 +32,17 @@ NUM = [0-9]+("."[  |0-9]+)?
 %%
 
 ","                     {return new Symbol(sym.COMA, yyline,(int) yychar, yytext());}
+":"                     {return new Symbol(sym.DOS_PUNTOS, yyline,(int) yychar, yytext());}
 
 "{"                     {return new Symbol(sym.LLAVE_START, yyline,(int) yychar, yytext());}
 "}"                     {return new Symbol(sym.LLAVE_END, yyline,(int) yychar, yytext());}
 
 \n                      {yychar=1;}
-
 {BLANK}                 {}
 {NUM}                   {return new Symbol(sym.NUM, yyline, (int) yychar, yytext());}
 {STR}                   {return new Symbol(sym.STR, yyline, (int) yychar, (yytext()));}
 
+
 . {
-    lexicalErrors.add(new LexicalError(yytext(), yyline, (int) yychar));
+    erroresLexicos.add(new ErrorLexico(yytext(), yyline, (int) yychar));
 }

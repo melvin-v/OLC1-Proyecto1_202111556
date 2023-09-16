@@ -5,13 +5,21 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.LinkedList;
 
+import analizadores.Lexico;
+import analizadores.Parser;
 import utilidades.AnalyzerResult;
-import utilidades.Utils;
+import utilidades.JSON;
+
+import static interfaz.Root.ruta;
 
 public class Panel extends JPanel {
     static JTextArea areaTexto;
     static JPanel panel;
+    static LinkedList<JSON> jsons = new LinkedList<>();
     public Panel() {
         panel = new JPanel(new BorderLayout());
         JPanel panelOpciones = new JPanel(new FlowLayout());
@@ -73,7 +81,7 @@ public class Panel extends JPanel {
                         AnalyzerResult ast = utilidades.Utils.loadFile(codigo);
                         String traduccion = utilidades.Utils.generarCodigo(ast.ast);
                         salida.setText(traduccion);
-                        System.out.println("--Analisis finalizado--");
+                        System.out.println("--Analisis StatPy finalizado--");
                     }
                     catch (Exception exception){
                         exception.printStackTrace();
@@ -82,10 +90,22 @@ public class Panel extends JPanel {
                 else if(analizador.equals("JSON")){
                     String codigo = areaTexto.getText();
                     try{
-                        //Scanner scanner = new Scanner(new java.io.StringReader(codigo));
-                        //Sintactico sintactico = new Sintactico(scanner);
-                        //sintactico.parse();
-                        System.out.println("--Analisis finalizado--");
+                        analizadores.json.Lexico scanner = new analizadores.json.Lexico(new StringReader(codigo));
+                        analizadores.json.ParserJSON parser = new analizadores.json.ParserJSON(scanner);
+                        try {
+                            parser.parse();
+                        } catch (Exception ex) {
+                            throw ex;
+                        }
+                        JSON json = new JSON(parser.simbolos, ruta);
+                        jsons.add(json);
+                        for (JSON j : jsons){
+                            System.out.println(j.path);
+                            j.pares.forEach((k,v) -> {
+                                System.out.println(k + " : " + v);
+                            });
+                        }
+                        System.out.println("--Analisis JSON finalizado--");
                     }
                     catch (Exception exception){
                         exception.printStackTrace();

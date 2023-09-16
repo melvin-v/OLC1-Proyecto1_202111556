@@ -14,6 +14,7 @@ public class Root extends JFrame implements ActionListener {
     JMenuItem gC;
     JMenuItem rTokens;
     JMenuItem rLexico;
+    static String ruta;
 
     public Root() {
         setBounds(300, 100, 1500, 500);
@@ -74,6 +75,7 @@ public class Root extends JFrame implements ActionListener {
                     // Establecer el contenido del JTextArea
                     areaTexto.setText(content);
                     currentFile = fileChooser.getSelectedFile().getAbsolutePath();
+                    ruta = fileChooser.getSelectedFile().getName();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
