@@ -32,5 +32,5 @@ ini ::= LLAVE_START pares:s LLAVE_END;
 pares ::= pares COMA par:p
         | par:p;
 
-par ::= STR:s DOS_PUNTOS NUM:n {:simbolos.put(s, n);:}
-      | STR:s DOS_PUNTOS STR:n {:simbolos.put(s, n);:};
+par ::= STR:s DOS_PUNTOS NUM:n {:simbolos.put(utilidades.Utils.strs(s), n);:}
+      | STR:s DOS_PUNTOS STR:n {:simbolos.put(utilidades.Utils.strs(s), utilidades.Utils.strs(n));:};

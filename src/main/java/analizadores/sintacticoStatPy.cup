@@ -7,12 +7,16 @@ import java.util.Map;
 import errores.ErrorSintactico;
 import instrucciones.*;
 import enums.*;
-import graficar.GraficaVariables;
 
 
 
 parser code {:
     public Map<String, String> simbolos = new HashMap<>();
+    public LinkedList<String> barraPalabras = new LinkedList<>();
+    public LinkedList<String> barraValores = new LinkedList<>();
+    public String barraTitulo = "";
+    public String barraTituloX = "";
+    public String barraTituloY = "";
     public LinkedList<Instruccion> AST;
     public LinkedList<ErrorSintactico> errores = new LinkedList<>();
     public void error_sintactico(Symbol s) {
@@ -85,12 +89,12 @@ instruccionesBarra ::= instruccionesBarra instruccionBarra
 | instruccionBarra
 ;
 
-instruccionBarra ::= TYPEDEF TITULO IGUAL ID PUNTO_COMA
-                   | TYPEDEF TITULO IGUAL STR PUNTO_COMA
-                   | TYPEDEF TITULOX IGUAL ID PUNTO_COMA
-                   | TYPEDEF TITULOX IGUAL STR PUNTO_COMA
-                   | TYPEDEF TITULOY IGUAL STR PUNTO_COMA
-                   | TYPEDEF TITULOY IGUAL ID PUNTO_COMA
+instruccionBarra ::= TYPEDEF TITULO IGUAL ID:s PUNTO_COMA {: barraTitulo = simbolos.get(s); :}
+                   | TYPEDEF TITULO IGUAL STR:s PUNTO_COMA {: barraTitulo = s; :}
+                   | TYPEDEF TITULOX IGUAL ID:s PUNTO_COMA {: barraTituloX = simbolos.get(s); :}
+                   | TYPEDEF TITULOX IGUAL STR:s PUNTO_COMA {: barraTituloX = s; :}
+                   | TYPEDEF TITULOY IGUAL STR:s PUNTO_COMA {: barraTituloY = s; :}
+                   | TYPEDEF TITULOY IGUAL ID:s PUNTO_COMA {: barraTituloY = simbolos.get(s); :}
                    | TYPEDEF CORCHETE_IZQ CORCHETE_DER EJEX IGUAL LLAVE_IZQ ejesxBarra LLAVE_DER PUNTO_COMA
                    | TYPEDEF CORCHETE_IZQ CORCHETE_DER VALORES IGUAL LLAVE_IZQ asignacionesBarra LLAVE_DER PUNTO_COMA
 ;
@@ -99,9 +103,9 @@ ejesxBarra ::= ejesxBarra COMA ejexBarra
 | ejexBarra
 ;
 
-ejexBarra ::= ID
-| STR
-| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER
+ejexBarra ::= ID:s {: barraPalabras.add(simbolos.get(s)); :}
+| STR:s {: barraPalabras.add(s); :}
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER {:barraPalabras.add(utilidades.GetJSON.getJSON(a,b)); :}
 ;
 
 // EJE Y
@@ -109,9 +113,9 @@ asignacionesBarra ::= asignacionesBarra COMA  asignacionBarra
 | asignacionBarra
 ;
 
-asignacionBarra ::= ID
-| NUM
-| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER
+asignacionBarra ::= ID:s {: barraValores.add(simbolos.get(s)); :}
+| NUM:s {: barraValores.add(s); :}
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER {:barraValores.add(utilidades.GetJSON.getJSON(a,b)); :}
 ;
 // ---------------------------------------------------------------------------------------------------------------------
 declaraciones ::= declaraciones declaracion
@@ -120,7 +124,7 @@ declaraciones ::= declaraciones declaracion
 
 declaracion ::= TYPEDEF ID:t IGUAL STR:s PUNTO_COMA {:simbolos.put(t,s);:}
 | TYPEDEF ID:t IGUAL NUM:s PUNTO_COMA {:simbolos.put(t,s);:}
-| TYPEDEF ID:t IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:simbolos.put(t, utilidades.GetJSON.getJSON(a,b));:}
+| TYPEDEF ID:t IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:simbolos.put(t, utilidades.GetJSON.getJSON(utilidades.Utils.strs(a),utilidades.Utils.strs(b)));:}
 ;
 
 statements ::= statements:s statement:t {:RESULT=s; RESULT.add(t);:}

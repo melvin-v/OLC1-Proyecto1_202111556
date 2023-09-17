@@ -78,9 +78,20 @@ public class Panel extends JPanel {
                 if(analizador.equals("StatPy")){
                     String codigo = areaTexto.getText();
                     try{
-                        AnalyzerResult ast = utilidades.Utils.loadFile(codigo);
-                        String traduccion = utilidades.Utils.generarCodigo(ast.ast);
+                        AnalyzerResult resultado = utilidades.Utils.loadFile(codigo);
+                        String traduccion = utilidades.Utils.generarCodigo(resultado.ast);
                         salida.setText(traduccion);
+                        //Graficar
+                        for (JSON json : jsons) {
+                            System.out.println(json.path);
+                            System.out.println(json.pares.get("val2"));
+                        }
+                        System.out.println("---------------------");
+                        for(String valores : resultado.barraValores){
+                            System.out.println(valores);
+                        }
+                        System.out.println("---------------------");
+                        graficar.Graficar.barras(resultado.barraPalabras, resultado.barraValores, resultado.barraTitulo, resultado.barraTituloX, resultado.barraTituloY);
                         System.out.println("--Analisis StatPy finalizado--");
                     }
                     catch (Exception exception){
@@ -99,12 +110,7 @@ public class Panel extends JPanel {
                         }
                         JSON json = new JSON(parser.simbolos, ruta);
                         jsons.add(json);
-                        for (JSON j : jsons){
-                            System.out.println(j.path);
-                            j.pares.forEach((k,v) -> {
-                                System.out.println(k + " : " + v);
-                            });
-                        }
+                        salida.setText("JSON guardado");
                         System.out.println("--Analisis JSON finalizado--");
                     }
                     catch (Exception exception){

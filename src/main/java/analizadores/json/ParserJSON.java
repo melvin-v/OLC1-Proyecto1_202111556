@@ -198,7 +198,7 @@ class CUP$ParserJSON$actions {
 		int nleft = ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.peek()).right;
 		String n = (String)((java_cup.runtime.Symbol) CUP$ParserJSON$stack.peek()).value;
-		simbolos.put(s, n);
+		simbolos.put(utilidades.Utils.strs(s), n);
               CUP$ParserJSON$result = parser.getSymbolFactory().newSymbol("par",2, ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.elementAt(CUP$ParserJSON$top-2)), ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.peek()), RESULT);
             }
           return CUP$ParserJSON$result;
@@ -213,7 +213,7 @@ class CUP$ParserJSON$actions {
 		int nleft = ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.peek()).right;
 		String n = (String)((java_cup.runtime.Symbol) CUP$ParserJSON$stack.peek()).value;
-		simbolos.put(s, n);
+		simbolos.put(utilidades.Utils.strs(s), utilidades.Utils.strs(n));
               CUP$ParserJSON$result = parser.getSymbolFactory().newSymbol("par",2, ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.elementAt(CUP$ParserJSON$top-2)), ((java_cup.runtime.Symbol)CUP$ParserJSON$stack.peek()), RESULT);
             }
           return CUP$ParserJSON$result;

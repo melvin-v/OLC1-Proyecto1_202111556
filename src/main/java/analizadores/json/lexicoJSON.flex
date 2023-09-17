@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 %%
 %class Lexico
-%debug
 %public
 %line
 %char

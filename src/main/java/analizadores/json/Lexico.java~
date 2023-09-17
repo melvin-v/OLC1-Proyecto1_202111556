@@ -19,7 +19,6 @@ public class Lexico implements java_cup.runtime.Scanner {
 
   /** initial size of the lookahead buffer */
   private static final int ZZ_BUFFERSIZE = 16384;
-  private static final String ZZ_NL = System.getProperty("line.separator");
 
   /** lexical states */
   public static final int YYINITIAL = 0;
@@ -264,23 +263,6 @@ public class Lexico implements java_cup.runtime.Scanner {
       do map[j++] = value; while (--count > 0);
     }
     return map;
-  }
-
-  private static String zzToPrintable(String str) {
-    StringBuilder builder = new StringBuilder();
-    for (int n = 0 ; n < str.length() ; ) {
-      int ch = str.codePointAt(n);
-      int charCount = Character.charCount(ch);
-      n += charCount;
-      if (ch > 31 && ch < 127) {
-        builder.append((char)ch);
-      } else if (charCount == 1) {
-        builder.append(String.format("\\u%04X", ch));
-      } else {
-        builder.append(String.format("\\U%06X", ch));
-      }
-    }
-    return builder.toString();
   }
 
 
@@ -637,123 +619,52 @@ public class Lexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [46] { erroresLexicos.add(new ErrorLexico(yytext(), yyline, (int) yychar)); }");
             { erroresLexicos.add(new ErrorLexico(yytext(), yyline, (int) yychar));
             } 
             // fall through
           case 10: break;
           case 2: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [41] {  }");
             { 
             } 
             // fall through
           case 11: break;
           case 3: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [42] { return new Symbol(sym.NUM, yyline, (int) yychar, yytext()); }");
             { return new Symbol(sym.NUM, yyline, (int) yychar, yytext());
             } 
             // fall through
           case 12: break;
           case 4: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [34] { return new Symbol(sym.COMA, yyline,(int) yychar, yytext()); }");
             { return new Symbol(sym.COMA, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 13: break;
           case 5: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [35] { return new Symbol(sym.DOS_PUNTOS, yyline,(int) yychar, yytext()); }");
             { return new Symbol(sym.DOS_PUNTOS, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 14: break;
           case 6: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [37] { return new Symbol(sym.LLAVE_START, yyline,(int) yychar, yytext()); }");
             { return new Symbol(sym.LLAVE_START, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 15: break;
           case 7: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [38] { return new Symbol(sym.LLAVE_END, yyline,(int) yychar, yytext()); }");
             { return new Symbol(sym.LLAVE_END, yyline,(int) yychar, yytext());
             } 
             // fall through
           case 16: break;
           case 8: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [40] { yychar=1; }");
             { yychar=1;
             } 
             // fall through
           case 17: break;
           case 9: 
-            System.out.println("line: "+(yyline+1)+" "+"char: "+yychar+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [43] { return new Symbol(sym.STR, yyline, (int) yychar, (yytext())); }");
             { return new Symbol(sym.STR, yyline, (int) yychar, (yytext()));
             } 
             // fall through
           case 18: break;
           default:
             zzScanError(ZZ_NO_MATCH);
-        }
-      }
-    }
-  }
-
-  /**
-   * Runs the scanner on input files.
-   *
-   * This main method is the debugging routine for the scanner.
-   * It prints debugging information about each returned token to
-   * System.out until the end of file is reached, or an error occured.
-   *
-   * @param argv   the command line, contains the filenames to run
-   *               the scanner on.
-   */
-  public static void main(String argv[]) {
-    if (argv.length == 0) {
-      System.out.println("Usage : java Lexico [ --encoding <name> ] <inputfile(s)>");
-    }
-    else {
-      int firstFilePos = 0;
-      String encodingName = "UTF-8";
-      if (argv[0].equals("--encoding")) {
-        firstFilePos = 2;
-        encodingName = argv[1];
-        try {
-          java.nio.charset.Charset.forName(encodingName); // Side-effect: is encodingName valid? 
-        } catch (Exception e) {
-          System.out.println("Invalid encoding '" + encodingName + "'");
-          return;
-        }
-      }
-      for (int i = firstFilePos; i < argv.length; i++) {
-        Lexico scanner = null;
-        try {
-          java.io.FileInputStream stream = new java.io.FileInputStream(argv[i]);
-          java.io.Reader reader = new java.io.InputStreamReader(stream, encodingName);
-          scanner = new Lexico(reader);
-          do {
-            System.out.println(scanner.next_token());
-          } while (!scanner.zzAtEOF);
-
-        }
-        catch (java.io.FileNotFoundException e) {
-          System.out.println("File not found : \""+argv[i]+"\"");
-        }
-        catch (java.io.IOException e) {
-          System.out.println("IO error scanning file \""+argv[i]+"\"");
-          System.out.println(e);
-        }
-        catch (Exception e) {
-          System.out.println("Unexpected exception:");
-          e.printStackTrace();
         }
       }
     }

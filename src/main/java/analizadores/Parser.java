@@ -12,7 +12,6 @@ import java.util.Map;
 import errores.ErrorSintactico;
 import instrucciones.*;
 import enums.*;
-import graficar.GraficaVariables;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -580,6 +579,11 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
     public Map<String, String> simbolos = new HashMap<>();
+    public LinkedList<String> barraPalabras = new LinkedList<>();
+    public LinkedList<String> barraValores = new LinkedList<>();
+    public String barraTitulo = "";
+    public String barraTituloX = "";
+    public String barraTituloY = "";
     public LinkedList<Instruccion> AST;
     public LinkedList<ErrorSintactico> errores = new LinkedList<>();
     public void error_sintactico(Symbol s) {
@@ -729,7 +733,10 @@ class CUP$Parser$actions {
           case 10: // instruccionBarra ::= TYPEDEF TITULO IGUAL ID PUNTO_COMA 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		 barraTitulo = simbolos.get(s); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("instruccionBarra",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -738,7 +745,10 @@ class CUP$Parser$actions {
           case 11: // instruccionBarra ::= TYPEDEF TITULO IGUAL STR PUNTO_COMA 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		 barraTitulo = s; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("instruccionBarra",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -747,7 +757,10 @@ class CUP$Parser$actions {
           case 12: // instruccionBarra ::= TYPEDEF TITULOX IGUAL ID PUNTO_COMA 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		 barraTituloX = simbolos.get(s); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("instruccionBarra",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -756,7 +769,10 @@ class CUP$Parser$actions {
           case 13: // instruccionBarra ::= TYPEDEF TITULOX IGUAL STR PUNTO_COMA 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		 barraTituloX = s; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("instruccionBarra",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -765,7 +781,10 @@ class CUP$Parser$actions {
           case 14: // instruccionBarra ::= TYPEDEF TITULOY IGUAL STR PUNTO_COMA 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		 barraTituloY = s; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("instruccionBarra",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -774,7 +793,10 @@ class CUP$Parser$actions {
           case 15: // instruccionBarra ::= TYPEDEF TITULOY IGUAL ID PUNTO_COMA 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		 barraTituloY = simbolos.get(s); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("instruccionBarra",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -819,7 +841,10 @@ class CUP$Parser$actions {
           case 20: // ejexBarra ::= ID 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		 barraPalabras.add(simbolos.get(s)); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ejexBarra",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -828,7 +853,10 @@ class CUP$Parser$actions {
           case 21: // ejexBarra ::= STR 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		 barraPalabras.add(s); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ejexBarra",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -843,7 +871,7 @@ class CUP$Parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-
+		barraPalabras.add(utilidades.GetJSON.getJSON(a,b)); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ejexBarra",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -870,7 +898,10 @@ class CUP$Parser$actions {
           case 25: // asignacionBarra ::= ID 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		 barraValores.add(simbolos.get(s)); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("asignacionBarra",21, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -879,7 +910,10 @@ class CUP$Parser$actions {
           case 26: // asignacionBarra ::= NUM 
             {
               Object RESULT =null;
-
+		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		 barraValores.add(s); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("asignacionBarra",21, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -894,7 +928,7 @@ class CUP$Parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-
+		barraValores.add(utilidades.GetJSON.getJSON(a,b)); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("asignacionBarra",21, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -960,7 +994,7 @@ class CUP$Parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		simbolos.put(t, utilidades.GetJSON.getJSON(a,b));
+		simbolos.put(t, utilidades.GetJSON.getJSON(utilidades.Utils.strs(a),utilidades.Utils.strs(b)));
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaracion",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-11)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

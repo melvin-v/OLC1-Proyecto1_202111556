@@ -16,10 +16,7 @@ import instrucciones.Operacion;
 import errores.ErrorLexico;
 import errores.ErrorSintactico;
 
-/**
- *
- * @author Xhunik
- */
+
 public class Utils {
 
         public static AnalyzerResult loadFile(String input) throws Exception{
@@ -30,7 +27,7 @@ public class Utils {
                } catch (Exception ex) {
                    throw ex;
                }
-               return new AnalyzerResult(parser.AST, scanner.lexicalErrors, parser.errores);
+               return new AnalyzerResult(parser.AST, scanner.lexicalErrors, parser.errores, parser.simbolos, parser.barraPalabras, parser.barraValores, parser.barraTitulo, parser.barraTituloX, parser.barraTituloY);
            }
 
 
@@ -114,5 +111,9 @@ public class Utils {
             str.append("\t").append(line).append("\n");
         }
         return str.toString();
+    }
+    public static String strs(String input) {
+        String str = input.substring(1, input.length() - 1);
+        return str;
     }
 }

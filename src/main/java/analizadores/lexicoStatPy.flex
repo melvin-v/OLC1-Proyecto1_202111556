@@ -4,7 +4,6 @@ import errores.ErrorLexico;import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 
 %%
-%debug
 %class Lexico
 %public
 %line
