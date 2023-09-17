@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.LinkedList;
 
 parser code {:
-    public Map<String, Object> simbolos = new HashMap<>();
+    public Map<String, String> simbolos = new HashMap<>();
     public LinkedList<ErrorSintactico> errores = new LinkedList<>();
     public void error_sintactico(Symbol s) {
         if (s.value != null)

@@ -2,11 +2,17 @@ package analizadores;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 import errores.ErrorSintactico;
 import instrucciones.*;
 import enums.*;
+import graficar.GraficaVariables;
+
+
 
 parser code {:
+    public Map<String, String> simbolos = new HashMap<>();
     public LinkedList<Instruccion> AST;
     public LinkedList<ErrorSintactico> errores = new LinkedList<>();
     public void error_sintactico(Symbol s) {
@@ -22,9 +28,10 @@ terminal String VOID, MAIN;
 terminal String MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL, NOT, OR, AND, PUNTO, INCREMENTO;
 terminal String PUNTO_COMA, DOS_PUNTOS;
 terminal String SUMA, RESTA, MULTIPLICACION, DIVISION;
-terminal String PARENTESIS_IZQ, PARENTESIS_DER, LLAVE_IZQ, LLAVE_DER;
+terminal String PARENTESIS_IZQ, PARENTESIS_DER, LLAVE_IZQ, LLAVE_DER, COMA, CORCHETE_IZQ, CORCHETE_DER;
 terminal String IF, ELSE, SWITCH, CASE, DEFAULT, SWITCH_BREAK, FOR, WHILE, DO, CONSOLE, WRITE;
 terminal String NUM, STR, CHAR, TYPEDEF, ID, BOOLEAN;
+terminal String DEFINIRGLOBALES, GRAFICABARRAS, DOLAR, NEWVALOR, GRAFICAPIE, TITULOX, TITULOY, TITULO, EJEX, VALORES;
 
 non terminal ini;
 
@@ -42,13 +49,13 @@ non terminal Operacion unitary;
 
 non terminal If if;
 
-non terminal Instruccion function;
-
 non terminal Instruccion mainstatement;
 non terminal LinkedList<Instruccion> mainstatements;
 
 non terminal LinkedList<ImprimirExpresion> impresiones;
 non terminal ImprimirExpresion impresion;
+
+non terminal funciones, declaraciones, declaracion, instruccionesBarra, instruccionBarra, asignacionBarra, asignacionesBarra, orasignacionesBarra, ejexBarra, ejesxBarra, xbarra;
 
 precedence left MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL;
 precedence left AND, OR;
@@ -67,7 +74,54 @@ mainstatements ::= mainstatements:s mainstatement:t {:RESULT=s; RESULT.add(t);:}
 
 
 mainstatement ::= statement:s {:RESULT = s;:}
-| function:d {:RESULT = d;:};
+| funciones;
+
+funciones ::= VOID DEFINIRGLOBALES PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ declaraciones LLAVE_DER
+| VOID GRAFICABARRAS PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ instruccionesBarra LLAVE_DER
+;
+// GRAFICAR BARRA
+
+instruccionesBarra ::= instruccionesBarra instruccionBarra
+| instruccionBarra
+;
+
+instruccionBarra ::= TYPEDEF TITULO IGUAL ID PUNTO_COMA
+                   | TYPEDEF TITULO IGUAL STR PUNTO_COMA
+                   | TYPEDEF TITULOX IGUAL ID PUNTO_COMA
+                   | TYPEDEF TITULOX IGUAL STR PUNTO_COMA
+                   | TYPEDEF TITULOY IGUAL STR PUNTO_COMA
+                   | TYPEDEF TITULOY IGUAL ID PUNTO_COMA
+                   | TYPEDEF CORCHETE_IZQ CORCHETE_DER EJEX IGUAL LLAVE_IZQ ejesxBarra LLAVE_DER PUNTO_COMA
+                   | TYPEDEF CORCHETE_IZQ CORCHETE_DER VALORES IGUAL LLAVE_IZQ asignacionesBarra LLAVE_DER PUNTO_COMA
+;
+// EJE X
+ejesxBarra ::= ejesxBarra COMA ejexBarra
+| ejexBarra
+;
+
+ejexBarra ::= ID
+| STR
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER
+;
+
+// EJE Y
+asignacionesBarra ::= asignacionesBarra COMA  asignacionBarra
+| asignacionBarra
+;
+
+asignacionBarra ::= ID
+| NUM
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER
+;
+// ---------------------------------------------------------------------------------------------------------------------
+declaraciones ::= declaraciones declaracion
+| declaracion
+;
+
+declaracion ::= TYPEDEF ID:t IGUAL STR:s PUNTO_COMA {:simbolos.put(t,s);:}
+| TYPEDEF ID:t IGUAL NUM:s PUNTO_COMA {:simbolos.put(t,s);:}
+| TYPEDEF ID:t IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:simbolos.put(t, utilidades.GetJSON.getJSON(a,b));:}
+;
 
 statements ::= statements:s statement:t {:RESULT=s; RESULT.add(t);:}
 | statement:s {:RESULT = new LinkedList<Instruccion>(); RESULT.add(s);:};
@@ -93,9 +147,6 @@ impresiones ::= impresiones:s impresion:t {:RESULT=s; RESULT.add(t);:}
 
 impresion ::=  expr:s SUMA {:RESULT = new ImprimirExpresion(s);:}
 | expr:s {:RESULT = new ImprimirExpresion(s);:}
-;
-
-function ::=  VOID ID:f PARENTESIS_IZQ PARENTESIS_IZQ LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new Funcion(f,s);:}
 ;
 
 if ::= IF PARENTESIS_IZQ expr:e PARENTESIS_DER LLAVE_IZQ statements:s LLAVE_DER {:RESULT = new If(e,s);:}

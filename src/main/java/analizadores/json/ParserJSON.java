@@ -103,7 +103,7 @@ public class ParserJSON extends java_cup.runtime.lr_parser {
 
 
 
-    public Map<String, Object> simbolos = new HashMap<>();
+    public Map<String, String> simbolos = new HashMap<>();
     public LinkedList<ErrorSintactico> errores = new LinkedList<>();
     public void error_sintactico(Symbol s) {
         if (s.value != null)

@@ -19,7 +19,7 @@ import static interfaz.Root.ruta;
 public class Panel extends JPanel {
     static JTextArea areaTexto;
     static JPanel panel;
-    static LinkedList<JSON> jsons = new LinkedList<>();
+    public static LinkedList<JSON> jsons = new LinkedList<>();
     public Panel() {
         panel = new JPanel(new BorderLayout());
         JPanel panelOpciones = new JPanel(new FlowLayout());

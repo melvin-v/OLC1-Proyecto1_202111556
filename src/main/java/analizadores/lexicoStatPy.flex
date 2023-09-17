@@ -4,7 +4,7 @@ import errores.ErrorLexico;import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 
 %%
-
+%debug
 %class Lexico
 %public
 %line
@@ -51,7 +51,7 @@ TYPEDEF = int|double|char|bool|string
 "!"                   {return new Symbol(sym.NOT, yyline,(int) yychar, yytext());}
 "||"                    {return new Symbol(sym.OR, yyline,(int) yychar, yytext());}
 "&&"                   {return new Symbol(sym.AND, yyline,(int) yychar, yytext());}
-
+"$"                     {return new Symbol(sym.DOLAR, yyline,(int) yychar, yytext());}
 
 ";"                     {return new Symbol(sym.PUNTO_COMA, yyline,(int) yychar, yytext());}
 ":"                    {return new Symbol(sym.DOS_PUNTOS, yyline,(int) yychar, yytext());}
@@ -63,12 +63,16 @@ TYPEDEF = int|double|char|bool|string
 "*"                     {return new Symbol(sym.MULTIPLICACION, yyline,(int) yychar, yytext());}
 "/"                     {return new Symbol(sym.DIVISION, yyline,(int) yychar, yytext());}
 "."                     {return new Symbol(sym.PUNTO, yyline,(int) yychar, yytext());}
+","                     {return new Symbol(sym.COMA, yyline,(int) yychar, yytext());}
 
 "("                     {return new Symbol(sym.PARENTESIS_IZQ, yyline,(int) yychar, yytext());}
 ")"                     {return new Symbol(sym.PARENTESIS_DER, yyline,(int) yychar, yytext());}
 
 "{"                     {return new Symbol(sym.LLAVE_IZQ, yyline,(int) yychar, yytext());}
 "}"                     {return new Symbol(sym.LLAVE_DER, yyline,(int) yychar, yytext());}
+
+"["                     {return new Symbol(sym.CORCHETE_IZQ, yyline,(int) yychar, yytext());}
+"]"                     {return new Symbol(sym.CORCHETE_DER, yyline,(int) yychar, yytext());}
 
 "if"                    {return new Symbol(sym.IF, yyline,(int) yychar, yytext());}
 "else"                  {return new Symbol(sym.ELSE, yyline,(int) yychar, yytext());}
@@ -86,6 +90,16 @@ TYPEDEF = int|double|char|bool|string
 
 "Console"          {return new Symbol(sym.CONSOLE, yyline,(int) yychar, yytext());}
 "Write"          {return new Symbol(sym.WRITE, yyline,(int) yychar, yytext());}
+
+"NewValor"          {return new Symbol(sym.NEWVALOR, yyline,(int) yychar, yytext());}
+"DefinirGlobales"         {return new Symbol(sym.DEFINIRGLOBALES, yyline,(int) yychar, yytext());}
+"GraficaBarras"         {return new Symbol(sym.GRAFICABARRAS, yyline,(int) yychar, yytext());}
+"GraficaPie"        {return new Symbol(sym.GRAFICAPIE, yyline,(int) yychar, yytext());}
+"Titulox"        {return new Symbol(sym.TITULOX, yyline,(int) yychar, yytext());}
+"Tituloy"        {return new Symbol(sym.TITULOY, yyline,(int) yychar, yytext());}
+"Titulo"       {return new Symbol(sym.TITULO, yyline,(int) yychar, yytext());}
+"Ejex"       {return new Symbol(sym.EJEX, yyline,(int) yychar, yytext());}
+"Valores"       {return new Symbol(sym.VALORES, yyline,(int) yychar, yytext());}
 
 \n                      {yychar=1;}
 {BLANK}                 {}
