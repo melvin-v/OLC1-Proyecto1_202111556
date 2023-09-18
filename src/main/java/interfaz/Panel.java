@@ -82,16 +82,15 @@ public class Panel extends JPanel {
                         String traduccion = utilidades.Utils.generarCodigo(resultado.ast);
                         salida.setText(traduccion);
                         //Graficar
-                        for (JSON json : jsons) {
-                            System.out.println(json.path);
-                            System.out.println(json.pares.get("val2"));
+                        Root.tokensStatpy = resultado.tokens;
+                        Root.erroresStatpy = resultado.lexErrors;
+                        if (resultado.barraTitulo != ""){
+                            graficar.Graficar.barras(resultado.barraPalabras, resultado.barraValores, resultado.barraTitulo, resultado.barraTituloX, resultado.barraTituloY);
                         }
-                        System.out.println("---------------------");
-                        for(String valores : resultado.barraValores){
-                            System.out.println(valores);
+                        if (resultado.pieTitulo != ""){
+                            graficar.Graficar.pie(resultado.piePalabras, resultado.pieValores, resultado.pieTitulo);
                         }
-                        System.out.println("---------------------");
-                        graficar.Graficar.barras(resultado.barraPalabras, resultado.barraValores, resultado.barraTitulo, resultado.barraTituloX, resultado.barraTituloY);
+
                         System.out.println("--Analisis StatPy finalizado--");
                     }
                     catch (Exception exception){
@@ -110,6 +109,8 @@ public class Panel extends JPanel {
                         }
                         JSON json = new JSON(parser.simbolos, ruta);
                         jsons.add(json);
+                        Root.erroresJSON.addAll(scanner.erroresLexicos);
+                        Root.tokensJSON .addAll(scanner.tokens);
                         salida.setText("JSON guardado");
                         System.out.println("--Analisis JSON finalizado--");
                     }

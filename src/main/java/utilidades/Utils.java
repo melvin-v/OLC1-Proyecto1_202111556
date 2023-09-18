@@ -4,7 +4,9 @@
  */
 package utilidades;
 
-import java.io.StringReader;
+import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +29,8 @@ public class Utils {
                } catch (Exception ex) {
                    throw ex;
                }
-               return new AnalyzerResult(parser.AST, scanner.lexicalErrors, parser.errores, parser.simbolos, parser.barraPalabras, parser.barraValores, parser.barraTitulo, parser.barraTituloX, parser.barraTituloY);
+               return new AnalyzerResult(parser.AST, scanner.lexicalErrors, scanner.tokens, parser.errores, parser.simbolos, parser.barraPalabras,
+                       parser.barraValores, parser.barraTitulo, parser.barraTituloX, parser.barraTituloY, parser.piePalabras, parser.pieValores, parser.pieTitulo);
            }
 
 
@@ -116,4 +119,5 @@ public class Utils {
         String str = input.substring(1, input.length() - 1);
         return str;
     }
+
 }

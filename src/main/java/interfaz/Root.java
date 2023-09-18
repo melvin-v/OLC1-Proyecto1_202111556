@@ -1,9 +1,13 @@
 package interfaz;
+import errores.ErrorLexico;
+import utilidades.Token;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.LinkedList;
 
 import static interfaz.Panel.areaTexto;
 
@@ -15,6 +19,10 @@ public class Root extends JFrame implements ActionListener {
     JMenuItem rTokens;
     JMenuItem rLexico;
     static String ruta;
+    static LinkedList<ErrorLexico> erroresJSON = new LinkedList<>();
+    static LinkedList<ErrorLexico> erroresStatpy;
+    static LinkedList<Token> tokensJSON = new LinkedList<>();
+    static LinkedList<Token> tokensStatpy;
 
     public Root() {
         setBounds(300, 100, 1500, 500);
@@ -47,6 +55,8 @@ public class Root extends JFrame implements ActionListener {
         JMenu reportes = new JMenu("Reportes");
         rTokens = new JMenuItem("Reporte de Tokens");
         rLexico = new JMenuItem("Reporte de Errores Lexicos");
+        rTokens.addActionListener(this);
+        rLexico.addActionListener(this);
         reportes.add(rTokens);
         reportes.add(rLexico);
         menuBar.add(reportes);
@@ -96,6 +106,22 @@ public class Root extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == gC) {
             guardarComo();
+        }
+        else if (e.getSource() == rTokens){
+            try {
+                System.out.println("llego");
+                utilidades.Reportes.HTMLTokens(tokensStatpy, tokensJSON);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+        else if (e.getSource() == rLexico){
+            try {
+                System.out.println("llego error");
+                utilidades.Reportes.HTMLErrores(erroresStatpy, erroresJSON);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 

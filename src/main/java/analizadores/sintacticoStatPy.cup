@@ -12,11 +12,17 @@ import enums.*;
 
 parser code {:
     public Map<String, String> simbolos = new HashMap<>();
+
     public LinkedList<String> barraPalabras = new LinkedList<>();
     public LinkedList<String> barraValores = new LinkedList<>();
     public String barraTitulo = "";
     public String barraTituloX = "";
     public String barraTituloY = "";
+
+    public LinkedList<String> piePalabras = new LinkedList<>();
+    public LinkedList<String> pieValores = new LinkedList<>();
+    public String pieTitulo = "";
+
     public LinkedList<Instruccion> AST;
     public LinkedList<ErrorSintactico> errores = new LinkedList<>();
     public void error_sintactico(Symbol s) {
@@ -59,8 +65,8 @@ non terminal LinkedList<Instruccion> mainstatements;
 non terminal LinkedList<ImprimirExpresion> impresiones;
 non terminal ImprimirExpresion impresion;
 
-non terminal funciones, declaraciones, declaracion, instruccionesBarra, instruccionBarra, asignacionBarra, asignacionesBarra, orasignacionesBarra, ejexBarra, ejesxBarra, xbarra;
-
+non terminal funciones, declaraciones, declaracion, instruccionesBarra, instruccionBarra, asignacionBarra, asignacionesBarra, ejexBarra, ejesxBarra;
+non terminal instruccionesPie, instruccionPie, ejesxPie, ejexPie, ejesypie, ejeypie;
 precedence left MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, IGUAL, NO_IGUAL;
 precedence left AND, OR;
 precedence left SUMA, RESTA;
@@ -82,6 +88,32 @@ mainstatement ::= statement:s {:RESULT = s;:}
 
 funciones ::= VOID DEFINIRGLOBALES PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ declaraciones LLAVE_DER
 | VOID GRAFICABARRAS PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ instruccionesBarra LLAVE_DER
+| VOID GRAFICAPIE PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ instruccionesPie LLAVE_DER
+;
+// GRAFICAR PIE
+instruccionesPie ::= instruccionesPie instruccionPie
+| instruccionPie
+;
+instruccionPie ::= TYPEDEF TITULO IGUAL ID:s PUNTO_COMA {: pieTitulo = simbolos.get(s); :}
+| TYPEDEF TITULO IGUAL STR:s PUNTO_COMA {: pieTitulo = s; :}
+| TYPEDEF TITULO IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:pieTitulo = utilidades.GetJSON.getJSON(a,b);:}
+| TYPEDEF CORCHETE_IZQ CORCHETE_DER VALORES IGUAL LLAVE_IZQ ejesypie LLAVE_DER PUNTO_COMA
+| TYPEDEF CORCHETE_IZQ CORCHETE_DER EJEX IGUAL LLAVE_IZQ ejesxPie LLAVE_DER PUNTO_COMA
+;
+
+ejesypie ::= ejesypie COMA ejeypie
+| ejeypie
+;
+ejeypie ::= ID:s {: pieValores.add(simbolos.get(s)); :}
+| NUM:s {: pieValores.add(s); :}
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER {:pieValores.add(utilidades.GetJSON.getJSON(a,b)); :}
+;
+ejesxPie ::= ejesxPie COMA ejexPie
+| ejexPie
+;
+ejexPie ::= ID:s {: piePalabras.add(simbolos.get(s)); :}
+| STR:s {: piePalabras.add(s); :}
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER {:piePalabras.add(utilidades.GetJSON.getJSON(a,b)); :}
 ;
 // GRAFICAR BARRA
 
@@ -91,10 +123,13 @@ instruccionesBarra ::= instruccionesBarra instruccionBarra
 
 instruccionBarra ::= TYPEDEF TITULO IGUAL ID:s PUNTO_COMA {: barraTitulo = simbolos.get(s); :}
                    | TYPEDEF TITULO IGUAL STR:s PUNTO_COMA {: barraTitulo = s; :}
+                   | TYPEDEF TITULO IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:barraTitulo = utilidades.GetJSON.getJSON(a,b);:}
                    | TYPEDEF TITULOX IGUAL ID:s PUNTO_COMA {: barraTituloX = simbolos.get(s); :}
                    | TYPEDEF TITULOX IGUAL STR:s PUNTO_COMA {: barraTituloX = s; :}
+                   | TYPEDEF TITULOX IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:barraTituloX = utilidades.GetJSON.getJSON(a,b);:}
                    | TYPEDEF TITULOY IGUAL STR:s PUNTO_COMA {: barraTituloY = s; :}
                    | TYPEDEF TITULOY IGUAL ID:s PUNTO_COMA {: barraTituloY = simbolos.get(s); :}
+                   | TYPEDEF TITULOY IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:barraTituloY = utilidades.GetJSON.getJSON(a,b);:}
                    | TYPEDEF CORCHETE_IZQ CORCHETE_DER EJEX IGUAL LLAVE_IZQ ejesxBarra LLAVE_DER PUNTO_COMA
                    | TYPEDEF CORCHETE_IZQ CORCHETE_DER VALORES IGUAL LLAVE_IZQ asignacionesBarra LLAVE_DER PUNTO_COMA
 ;

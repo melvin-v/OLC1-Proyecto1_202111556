@@ -17,6 +17,7 @@ import instrucciones.Operacion;
 public class AnalyzerResult {
     public LinkedList<Instruccion> ast;
     public LinkedList<ErrorLexico> lexErrors;
+    public LinkedList<Token> tokens;
     public LinkedList<ErrorSintactico> sintaxErrors;
     public Map<String, String> simbolos;
     public LinkedList<String> barraPalabras;
@@ -24,16 +25,25 @@ public class AnalyzerResult {
     public String barraTitulo;
     public String barraTituloX ;
     public String barraTituloY;
+    public LinkedList<String> piePalabras;
+    public LinkedList<String> pieValores;
+    public String pieTitulo;
     
-    public AnalyzerResult(LinkedList<Instruccion> ast, LinkedList<ErrorLexico> lexErrors, LinkedList<ErrorSintactico> sintaxErrors, Map<String, String> simbolos, LinkedList<String> barraPalabras, LinkedList<String> barraValores, String barraTitulo, String barraTituloX, String barraTituloY) {
+    public AnalyzerResult(LinkedList<Instruccion> ast, LinkedList<ErrorLexico> lexErrors, LinkedList<Token> tokens, LinkedList<ErrorSintactico> sintaxErrors,
+                          Map<String, String> simbolos, LinkedList<String> barraPalabras, LinkedList<String> barraValores, String barraTitulo,
+                          String barraTituloX, String barraTituloY, LinkedList<String> piePalabras, LinkedList<String> pieValores, String pieTitulo) {
         this.ast = ast;
         this.lexErrors = lexErrors;
         this.sintaxErrors = sintaxErrors;
+        this.tokens = tokens;
         this.simbolos = simbolos;
         this.barraPalabras = barraPalabras;
         this.barraValores = barraValores;
         this.barraTitulo = barraTitulo;
         this.barraTituloX = barraTituloX;
         this.barraTituloY = barraTituloY;
+        this.piePalabras = piePalabras;
+        this.pieValores = pieValores;
+        this.pieTitulo = pieTitulo;
     }
 }
