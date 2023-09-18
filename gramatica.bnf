@@ -1,0 +1,167 @@
+//------------------------------GRAMATICA JSON----------------------------------------
+
+ini ::= LLAVE_START pares
+
+pares ::= pares COMA par
+        | par
+
+par ::= STR DOS_PUNTOS NUM
+      | STR DOS_PUNTOS STR
+
+//------------------------------GRAMATICA STATPY-------------------------------------------
+
+ini::= VOID MAIN PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ  mainstatements LLAVE_DER
+
+
+mainstatements ::= mainstatements mainstatement
+| mainstatement
+
+
+
+mainstatement ::= statement
+| funciones
+
+funciones ::= VOID DEFINIRGLOBALES PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ declaraciones LLAVE_DER
+| VOID GRAFICABARRAS PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ instruccionesBarra LLAVE_DER
+| VOID GRAFICAPIE PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ instruccionesPie LLAVE_DER
+
+instruccionesPie ::= instruccionesPie instruccionPie
+| instruccionPie
+;
+instruccionPie ::= TYPEDEF TITULO IGUAL ID PUNTO_COMA
+| TYPEDEF TITULO IGUAL STR PUNTO_COMA
+| TYPEDEF TITULO IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER PUNTO_COMA
+| TYPEDEF CORCHETE_IZQ CORCHETE_DER VALORES IGUAL LLAVE_IZQ ejesypie LLAVE_DER PUNTO_COMA
+| TYPEDEF CORCHETE_IZQ CORCHETE_DER EJEX IGUAL LLAVE_IZQ ejesxPie LLAVE_DER PUNTO_COMA
+;
+
+ejesypie ::= ejesypie COMA ejeypie
+| ejeypie
+;
+ejeypie ::= ID
+| NUM
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER
+;
+ejesxPie ::= ejesxPie COMA ejexPie
+| ejexPie
+
+ejexPie ::= ID
+| STR
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER
+
+
+instruccionesBarra ::= instruccionesBarra instruccionBarra
+| instruccionBarra
+
+
+instruccionBarra ::= TYPEDEF TITULO IGUAL ID PUNTO_COMA
+                   | TYPEDEF TITULO IGUAL STR PUNTO_COMA
+                   | TYPEDEF TITULO IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER PUNTO_COMA
+                   | TYPEDEF TITULOX IGUAL ID PUNTO_COMA
+                   | TYPEDEF TITULOX IGUAL STR PUNTO_COMA
+                   | TYPEDEF TITULOX IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER PUNTO_COMA
+                   | TYPEDEF TITULOY IGUAL STR PUNTO_COMA
+                   | TYPEDEF TITULOY IGUAL ID PUNTO_COMA
+                   | TYPEDEF TITULOY IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER PUNTO_COMA
+                   | TYPEDEF CORCHETE_IZQ CORCHETE_DER EJEX IGUAL LLAVE_IZQ ejesxBarra LLAVE_DER PUNTO_COMA
+                   | TYPEDEF CORCHETE_IZQ CORCHETE_DER VALORES IGUAL LLAVE_IZQ asignacionesBarra LLAVE_DER PUNTO_COMA
+
+ejesxBarra ::= ejesxBarra COMA ejexBarra
+| ejexBarra
+
+
+ejexBarra ::= ID
+| STR
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER
+
+
+
+asignacionesBarra ::= asignacionesBarra COMA  asignacionBarra
+| asignacionBarra
+
+
+asignacionBarra ::= ID
+| NUM
+| DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER
+
+declaraciones ::= declaraciones declaracion
+| declaracion
+;
+
+declaracion ::= TYPEDEF ID IGUAL STR PUNTO_COMA
+| TYPEDEF ID IGUAL NUM PUNTO_COMA
+| TYPEDEF ID IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR COMA STR LLAVE_DER PUNTO_COMA
+;
+
+statements ::= statements statement
+| statement
+
+statement ::= TYPEDEF ID IGUAL expr PUNTO_COMA
+| TYPEDEF ID PUNTO_COMA
+| ID IGUAL expr PUNTO_COMA
+| if
+| FOR PARENTESIS_IZQ TYPEDEF ID IGUAL expr PUNTO_COMA expr PUNTO_COMA ID INCREMENTO PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER
+| WHILE PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER
+| DO LLAVE_IZQ statements LLAVE_DER WHILE PARENTESIS_IZQ expr PARENTESIS_DER PUNTO_COMA
+| CONSOLE PUNTO WRITE PARENTESIS_IZQ impresiones PARENTESIS_DER PUNTO_COMA
+| SWITCH PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ cases LLAVE_DER
+| SWITCH PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ cases DEFAULT DOS_PUNTOS statements LLAVE_DER
+| SWITCH_BREAK PUNTO_COMA
+| error PUNTO_COMA
+| error LLAVE_DER
+;
+
+impresiones ::= impresiones impresion
+| impresion
+;
+
+impresion ::=  expr SUMA
+| expr
+;
+
+if ::= IF PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER
+| IF PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER ELSE LLAVE_IZQ statements LLAVE_DER
+| IF PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER elifs
+| IF PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER elifs ELSE LLAVE_IZQ statements
+;
+
+elifs ::= elifs ELSE IF PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER
+| ELSE IF PARENTESIS_IZQ expr PARENTESIS_DER LLAVE_IZQ statements LLAVE_DER
+;
+cases ::= cases  case
+| case
+;
+
+case ::= CASE expr DOS_PUNTOS statements
+|CASE expr DOS_PUNTOS statements SWITCH_BREAK
+;
+
+expr ::= symbols
+| unitary
+| aritmetic
+| logical
+| PARENTESIS_IZQ expr PARENTESIS_DER
+
+aritmetic ::= expr SUMA expr
+| expr RESTA expr
+| expr MULTIPLICACION expr
+| expr DIVISION expr
+| NUM
+
+logical ::= expr MAYOR expr
+| expr MENOR expr
+| expr MAYOR_IGUAL expr
+| expr MENOR_IGUAL expr
+| expr IGUAL expr
+| expr NO_IGUAL expr
+| expr AND expr
+| expr OR expr
+| BOOLEAN
+;
+
+symbols ::= ID
+| STR
+| CHAR
+
+unitary ::= RESTA expr
+| NOT expr

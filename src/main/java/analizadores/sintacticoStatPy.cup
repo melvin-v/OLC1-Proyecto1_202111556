@@ -86,7 +86,7 @@ mainstatements ::= mainstatements:s mainstatement:t {:RESULT=s; RESULT.add(t);:}
 mainstatement ::= statement:s {:RESULT = s;:}
 | funciones;
 
-funciones ::= VOID DEFINIRGLOBALES PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ declaraciones LLAVE_DER
+funciones ::= VOID DEFINIRGLOBALES PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ declaraciones LLAVE_DER {:System.out.println("Si esta llegando, scoop void definir");:}
 | VOID GRAFICABARRAS PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ instruccionesBarra LLAVE_DER
 | VOID GRAFICAPIE PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ instruccionesPie LLAVE_DER
 ;
@@ -157,9 +157,9 @@ declaraciones ::= declaraciones declaracion
 | declaracion
 ;
 
-declaracion ::= TYPEDEF ID:t IGUAL STR:s PUNTO_COMA {:simbolos.put(t,s);:}
-| TYPEDEF ID:t IGUAL NUM:s PUNTO_COMA {:simbolos.put(t,s);:}
-| TYPEDEF ID:t IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:simbolos.put(t, utilidades.GetJSON.getJSON(utilidades.Utils.strs(a),utilidades.Utils.strs(b)));:}
+declaracion ::= TYPEDEF ID:t IGUAL STR:s PUNTO_COMA {:System.out.println("1");simbolos.put(t,s);:}
+| TYPEDEF ID:t IGUAL NUM:s PUNTO_COMA {:System.out.println("2");simbolos.put(t,s);:}
+| TYPEDEF ID:t IGUAL DOLAR LLAVE_IZQ NEWVALOR COMA STR:a COMA STR:b LLAVE_DER PUNTO_COMA  {:System.out.println("3");simbolos.put(t, utilidades.GetJSON.getJSON(a,b));:}
 ;
 
 statements ::= statements:s statement:t {:RESULT=s; RESULT.add(t);:}

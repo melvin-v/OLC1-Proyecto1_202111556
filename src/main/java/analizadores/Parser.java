@@ -790,7 +790,7 @@ class CUP$Parser$actions {
           case 6: // funciones ::= VOID DEFINIRGLOBALES PARENTESIS_IZQ PARENTESIS_DER LLAVE_IZQ declaraciones LLAVE_DER 
             {
               Object RESULT =null;
-
+		System.out.println("Si esta llegando, scoop void definir");
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("funciones",16, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1297,7 +1297,7 @@ class CUP$Parser$actions {
 		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		simbolos.put(t,s);
+		System.out.println("1");simbolos.put(t,s);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaracion",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1312,7 +1312,7 @@ class CUP$Parser$actions {
 		int sleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		simbolos.put(t,s);
+		System.out.println("2");simbolos.put(t,s);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaracion",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1330,7 +1330,7 @@ class CUP$Parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		simbolos.put(t, utilidades.GetJSON.getJSON(utilidades.Utils.strs(a),utilidades.Utils.strs(b)));
+		System.out.println("3");simbolos.put(t, utilidades.GetJSON.getJSON(a,b));
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaracion",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-11)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
