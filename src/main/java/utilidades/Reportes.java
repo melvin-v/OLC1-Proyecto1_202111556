@@ -16,7 +16,7 @@ public class Reportes {
         PrintWriter pw = null;
         try {
 
-            String path = "Reporte_errores_StatPy.html";
+            String path = "Reporte_errores.html";
             fichero = new FileWriter(path);
             pw = new PrintWriter(fichero);
 
@@ -25,7 +25,7 @@ public class Reportes {
             pw.println("<head><title>REPORTE DE ERRORES</title></head>");
             pw.println("<body>");
             pw.println("<div align=\"center\">");
-            pw.println("<h1>Reporte de Errores</h1>");
+            pw.println("<h1>Reporte de Errores statpy</h1>");
             pw.println("<br></br>");
             pw.println("<table border=1>");
             pw.println("<tr>");
@@ -44,10 +44,10 @@ public class Reportes {
                 pw.println("</tr>");
             }
             pw.println("</table>");
-            pw.println("</div");
 
-            pw.println("<div align=\"center\">");
-            pw.println("<h1>Reporte de Errores</h1>");
+
+
+            pw.println("<h1>Reporte de Errores JSON</h1>");
             pw.println("<br></br>");
             pw.println("<table border=1>");
             pw.println("<tr>");
@@ -89,16 +89,16 @@ public class Reportes {
         PrintWriter pw = null;
         try {
 
-            String path = "Reporte_errores_StatPy.html";
+            String path = "Reporte_tokens.html";
             fichero = new FileWriter(path);
             pw = new PrintWriter(fichero);
 
             //Comenzamos a escribir el html
             pw.println("<html>");
-            pw.println("<head><title>REPORTE DE TOKENS</title></head>");
+            pw.println("<head><title>Reporte de tokens statpy</title></head>");
             pw.println("<body>");
             pw.println("<div align=\"center\">");
-            pw.println("<h1>Reporte de Errores</h1>");
+            pw.println("<h1>Reporte de Tokens</h1>");
             pw.println("<br></br>");
             pw.println("<table border=1>");
             pw.println("<tr>");
@@ -117,10 +117,10 @@ public class Reportes {
                 pw.println("</tr>");
             }
             pw.println("</table>");
-            pw.println("</div");
 
-            pw.println("<div align=\"center\">");
-            pw.println("<h1>Reporte de Errores</h1>");
+
+
+            pw.println("<h1>Resporte de tokens JSON</h1>");
             pw.println("<br></br>");
             pw.println("<table border=1>");
             pw.println("<tr>");
@@ -130,7 +130,7 @@ public class Reportes {
             pw.println("<td>COLUMNA</td>");
             pw.println("</tr>");
 
-            for (Token token : tokenStatpy) {
+            for (Token token : tokenJSON) {
                 pw.println("<tr>");
                 pw.println("<td>" + token.tipo + "</td>");
                 pw.println("<td>" + token.lexema + "</td>");

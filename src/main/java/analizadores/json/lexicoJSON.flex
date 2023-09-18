@@ -27,6 +27,8 @@ tokens = new LinkedList<>();
 %init}
 
 BLANK = [ \r\t]+
+COMMENTONELINE = ("//".*\r\n)|("//".*\n)|("//".*\r)
+COMMENTMULTILINE = "/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
 
 STR = [\"][^\"]*[\"]
 NUM = [0-9]+("."[  |0-9]+)?
@@ -41,6 +43,9 @@ NUM = [0-9]+("."[  |0-9]+)?
 
 \n                      {yychar=1;}
 {BLANK}                 {}
+{COMMENTONELINE}        {}
+{COMMENTMULTILINE}      {}
+
 {NUM}                   {tokens.add(new Token("NUM", yytext(), yyline, yychar ));return new Symbol(sym.NUM, yyline, (int) yychar, yytext());}
 {STR}                   {tokens.add(new Token("STR", yytext(), yyline, yychar ));return new Symbol(sym.STR, yyline, (int) yychar, (yytext()));}
 
